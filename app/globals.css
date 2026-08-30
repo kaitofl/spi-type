@@ -95,8 +95,12 @@ footer strong { color: #fff; font-size: 12px; letter-spacing: .08em; }
 .quiz-header .brand-mark { width: 22px; height: 22px; font-size: 8px; }
 .progress-track { position: relative; z-index: 5; width: 100%; height: 3px; background: rgba(255,255,255,.08); }
 .progress-track span { display: block; height: 100%; background: linear-gradient(90deg, var(--acid), var(--cyan)); box-shadow: 0 0 16px rgba(77,231,255,.75); transition: width .35s ease; }
-.question-stage { position: relative; z-index: 2; width: min(100%, 720px); min-height: calc(100svh - 67px); display: flex; flex-direction: column; justify-content: center; margin: auto; padding: 48px 16px 30px; animation: question-in .35s cubic-bezier(.2,.8,.2,1) both; }
-.question-copy { margin-bottom: 30px; }
+.question-stage { position: relative; z-index: 2; width: min(100%, 720px); min-height: calc(100svh - 67px); display: flex; flex-direction: column; justify-content: center; margin: auto; padding: 26px 16px 30px; animation: question-in .35s cubic-bezier(.2,.8,.2,1) both; }
+.question-visual { position: relative; width: 100%; aspect-ratio: 16 / 8.5; overflow: hidden; margin-bottom: 22px; border: 1px solid rgba(255,255,255,.2); clip-path: polygon(0 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 18px 100%, 0 calc(100% - 18px)); background: #111019; }
+.question-visual::after { position: absolute; inset: 0; content: ''; pointer-events: none; background: linear-gradient(to top, rgba(6,5,10,.62), transparent 55%), linear-gradient(110deg, rgba(116,87,255,.18), transparent 48%); box-shadow: inset 0 0 44px rgba(0,0,0,.35); }
+.question-visual img { display: block; width: 100%; height: 100%; object-fit: cover; animation: visual-reveal .65s cubic-bezier(.2,.8,.2,1) both; }
+.question-visual > span { position: absolute; z-index: 2; right: 10px; bottom: 8px; color: var(--acid); font-size: 7px; font-weight: 950; letter-spacing: .14em; }
+.question-copy { margin-bottom: 25px; }
 .question-number { display: inline-block; margin-bottom: 16px; padding: 5px 8px; color: var(--ink); background: var(--acid); font-size: 7px; font-weight: 950; letter-spacing: .1em; transform: rotate(-1deg); }
 .question-copy h1 { max-width: 650px; margin: 0; font-size: clamp(23px, 5.5vw, 34px); line-height: 1.43; letter-spacing: -.045em; text-wrap: pretty; }
 .question-prompt { margin: 14px 0 0; color: #f0edff; font-size: clamp(14px, 3.4vw, 17px); font-weight: 850; line-height: 1.55; }
@@ -122,7 +126,7 @@ footer strong { color: #fff; font-size: 12px; letter-spacing: .08em; }
 .result-eyebrow, .type-code, .result-hero h1, .result-catch { position: relative; z-index: 2; animation: rise-in .6s cubic-bezier(.2,.8,.2,1) both; }
 .result-eyebrow { margin: 0 0 10px; color: var(--acid); font-size: 8px; font-weight: 950; letter-spacing: .15em; }
 .type-code { color: var(--cyan); font-size: 8px; font-weight: 950; letter-spacing: .18em; animation-delay: .06s; }
-.result-hero h1 { margin: 9px 0 0; font-size: clamp(38px, 10vw, 66px); line-height: 1.03; letter-spacing: -.07em; animation-delay: .12s; }
+.result-hero h1 { max-width: 680px; margin: 9px 0 0; font-size: clamp(32px, 8.5vw, 58px); line-height: 1.08; letter-spacing: -.065em; animation-delay: .12s; text-wrap: balance; }
 .result-catch { max-width: 420px; margin: 16px 0 0; color: rgba(255,255,255,.64); font-size: 12px; font-weight: 750; line-height: 1.7; animation-delay: .18s; }
 .result-detail { position: relative; z-index: 3; padding: 42px 18px 60px; color: var(--ink); background: var(--paper); border-top: 6px solid var(--acid); }
 .result-detail > * { width: min(100%, 630px); margin-left: auto; margin-right: auto; }
@@ -142,6 +146,7 @@ footer strong { color: #fff; font-size: 12px; letter-spacing: .08em; }
 @keyframes question-in { from { opacity: 0; transform: translateX(15px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes sigil-spin { to { transform: rotate(360deg); } }
 @keyframes character-summon { from { opacity: 0; transform: translateY(28px) scale(.86); filter: blur(14px); } to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); } }
+@keyframes visual-reveal { from { opacity: 0; transform: scale(1.06); filter: blur(8px); } to { opacity: 1; transform: scale(1); filter: blur(0); } }
 
 @media (min-width: 720px) {
   .site-header { height: 82px; }

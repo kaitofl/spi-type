@@ -133,22 +133,22 @@ const axisDefinitions: Record<Dimension, { positive: AxisResult; negative: AxisR
 };
 
 const typeResults: Record<string, TypeResult> = {
-  PBEM: { name: '未来錬金術師', catchphrase: 'どんな出来事も、次の幸運の材料に。', description: '未来は選び直せて、運は自分で整えられると考えるタイプ。失敗さえも前向きに再利用できる、しなやかな開運上手です。' },
-  PBER: { name: 'ラッキートリッパー', catchphrase: '寄り道の先で、いい縁に出会う。', description: '未来の分岐を楽しみながら、やって来るタイミングを信じるタイプ。無理に支配せず、流れの変化を味方につけます。' },
-  PBCM: { name: '上昇気流メーカー', catchphrase: 'ひとつの幸運から、次の幸運を起こす。', description: '良い流れは自分の行動で大きくできると考えるタイプ。小さなチャンスを見逃さず、人生に勢いをつくります。' },
-  PBCR: { name: 'シンクロサーファー', catchphrase: '来た波に乗れば、未来はもっと面白くなる。', description: '偶然の流れを軽やかに受け取り、そのたびに未来を更新するタイプ。幸運が連鎖する瞬間を直感的につかみます。' },
-  PDEM: { name: '運命チューナー', catchphrase: '決められた物語も、いい音に整えられる。', description: '大きな運命の流れを信じつつ、日々の行動でコンディションを整えるタイプ。現実感と信念のバランスが魅力です。' },
-  PDER: { name: '祝福の案内人', catchphrase: '必要な幸運は、必要なときに届く。', description: '人生には意味のある流れがあり、最後にはきちんと整うと信じるタイプ。穏やかな安心感を周囲にも分け与えます。' },
-  PDCM: { name: 'コメットスター', catchphrase: '運命の追い風を、自分でさらに強くする。', description: '自分には進むべき道があり、良い流れは連鎖すると信じるタイプ。決めたことを現実にする推進力があります。' },
-  PDCR: { name: '天命ドリーマー', catchphrase: 'すべては、最高の未来につながっている。', description: '縁もタイミングも大きな物語の一部だと感じるタイプ。流れを信じる力が強く、幸運の連鎖に自然と乗っていきます。' },
-  NBEM: { name: '厄除けストラテジスト', catchphrase: '悪い未来を読んで、先回りで変えていく。', description: 'リスクを見つける力と、流れを整える行動力を持つタイプ。慎重さを武器にして、未来の分岐を安全な方へ導きます。' },
-  NBER: { name: '兆しウォッチャー', catchphrase: '焦らず見極めれば、流れはまた整う。', description: '悪い兆しに早く気づきながら、運の波が戻る瞬間を待てるタイプ。静かな観察力で、無理のない道を選びます。' },
-  NBCM: { name: '悪運ブレイカー', catchphrase: '嫌な連鎖は、自分のところで断ち切る。', description: '悪い流れを敏感に察知し、行動によって未来を変えるタイプ。危機に強く、停滞した空気を動かす突破役です。' },
-  NBCR: { name: '嵐読みナビゲーター', catchphrase: '流れを読めば、嵐の中にも道はある。', description: '運の連鎖と変化の兆しを鋭く読むタイプ。受け取ったサインを頼りに、危険を避けながら新しい道を探します。' },
-  NDEM: { name: '宿命バランサー', catchphrase: '決まった試練にも、整え方はきっとある。', description: '避けられない出来事を受け止めつつ、自分にできる備えを重ねるタイプ。崩れたバランスを現実的に立て直します。' },
-  NDER: { name: '月影ガーディアン', catchphrase: '今は耐えるとき。流れが戻るまで静かに守る。', description: '運命の波と帳尻を信じ、慎重にタイミングを待つタイプ。軽率に動かず、大切なものを守り抜く強さがあります。' },
-  NDCM: { name: '運命反逆ナイト', catchphrase: '決められた悪い流れなら、自分で打ち破る。', description: '運命の存在を感じながらも、望まない連鎖には行動で立ち向かうタイプ。強い覚悟で状況を変える反骨の人です。' },
-  NDCR: { name: '深淵オラクル', catchphrase: '見えない流れを読み、来るべき時を待つ。', description: '人生の背後にある大きな筋書きと、運の連鎖を深く感じるタイプ。表面に惑わされず、静かに兆しを読み取ります。' },
+  PBEM: { name: '幸運の錬金術師', catchphrase: 'どんな出来事も、次の幸運の材料に。', description: '未来は選び直せて、運は自分で整えられると考えるタイプ。失敗さえも前向きに再利用できる、しなやかな開運上手です。' },
+  PBER: { name: '星追い旅人', catchphrase: '寄り道の先で、いい縁に出会う。', description: '未来の分岐を楽しみながら、やって来るタイミングを信じるタイプ。無理に支配せず、流れの変化を味方につけます。' },
+  PBCM: { name: '開運プロデューサー', catchphrase: 'ひとつの幸運から、次の幸運を起こす。', description: '良い流れは自分の行動で大きくできると考えるタイプ。小さなチャンスを見逃さず、人生に勢いをつくります。' },
+  PBCR: { name: '引き寄せ招き猫', catchphrase: '来た波に乗れば、未来はもっと面白くなる。', description: '偶然の流れを軽やかに受け取り、そのたびに未来を更新するタイプ。幸運が連鎖する瞬間を直感的につかみます。' },
+  PDEM: { name: '運命の調律師', catchphrase: '決められた物語も、いい音に整えられる。', description: '大きな運命の流れを信じつつ、日々の行動でコンディションを整えるタイプ。現実感と信念のバランスが魅力です。' },
+  PDER: { name: '月夜の案内人', catchphrase: '必要な幸運は、必要なときに届く。', description: '人生には意味のある流れがあり、最後にはきちんと整うと信じるタイプ。穏やかな安心感を周囲にも分け与えます。' },
+  PDCM: { name: '願いの船長', catchphrase: '運命の追い風を、自分でさらに強くする。', description: '自分には進むべき道があり、良い流れは連鎖すると信じるタイプ。決めたことを現実にする推進力があります。' },
+  PDCR: { name: '生まれつきスター', catchphrase: 'すべては、最高の未来につながっている。', description: '縁もタイミングも大きな物語の一部だと感じるタイプ。流れを信じる力が強く、幸運の連鎖に自然と乗っていきます。' },
+  NBEM: { name: 'お守り職人', catchphrase: '悪い未来を読んで、先回りで変えていく。', description: 'リスクを見つける力と、流れを整える行動力を持つタイプ。慎重さを武器にして、未来の分岐を安全な方へ導きます。' },
+  NBER: { name: '兆し探偵', catchphrase: '焦らず見極めれば、流れはまた整う。', description: '悪い兆しに早く気づきながら、運の波が戻る瞬間を待てるタイプ。静かな観察力で、無理のない道を選びます。' },
+  NBCM: { name: '厄払い隊長', catchphrase: '嫌な連鎖は、自分のところで断ち切る。', description: '悪い流れを敏感に察知し、行動によって未来を変えるタイプ。危機に強く、停滞した空気を動かす突破役です。' },
+  NBCR: { name: '嵐待ち黒猫', catchphrase: '流れを読めば、嵐の中にも道はある。', description: '運の連鎖と変化の兆しを鋭く読むタイプ。受け取ったサインを頼りに、危険を避けながら新しい道を探します。' },
+  NDEM: { name: '運命の裁判官', catchphrase: '決まった試練にも、整え方はきっとある。', description: '避けられない出来事を受け止めつつ、自分にできる備えを重ねるタイプ。崩れたバランスを現実的に立て直します。' },
+  NDER: { name: '守護騎士', catchphrase: '今は耐えるとき。流れが戻るまで静かに守る。', description: '運命の波と帳尻を信じ、慎重にタイミングを待つタイプ。軽率に動かず、大切なものを守り抜く強さがあります。' },
+  NDCM: { name: '宿命ブレイカー', catchphrase: '決められた悪い流れなら、自分で打ち破る。', description: '運命の存在を感じながらも、望まない連鎖には行動で立ち向かうタイプ。強い覚悟で状況を変える反骨の人です。' },
+  NDCR: { name: '深夜の占い師', catchphrase: '見えない流れを読み、来るべき時を待つ。', description: '人生の背後にある大きな筋書きと、運の連鎖を深く感じるタイプ。表面に惑わされず、静かに兆しを読み取ります。' },
 };
 
 const dimensionOrder: Dimension[] = ['outlook', 'fate', 'flow', 'agency'];
@@ -358,6 +358,14 @@ export default function Home() {
       <div className="progress-track" aria-hidden="true"><span style={{ width: `${progress}%` }} /></div>
 
       <section className="question-stage" key={step}>
+        <div className="question-visual">
+          <img
+            src={`/questions/q${String(step + 1).padStart(2, '0')}.webp`}
+            alt=""
+            aria-hidden="true"
+          />
+          <span>VISION / {String(step + 1).padStart(2, '0')}</span>
+        </div>
         <div className="question-copy">
           <span className="question-number">Q.{String(step + 1).padStart(2, '0')} / FOLLOW YOUR VIBE</span>
           <h1>{question.scene}</h1>
