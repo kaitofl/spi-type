@@ -68,9 +68,10 @@ footer strong { color: var(--ink); font-size: 14px; }
 .progress-track { width: 100%; height: 2px; background: rgba(255,255,255,.08); }
 .progress-track span { display: block; height: 100%; background: var(--violet-light); box-shadow: 0 0 14px var(--violet); transition: width .35s ease; }
 .question-stage { width: min(100%, 740px); min-height: calc(100svh - 66px); display: flex; flex-direction: column; justify-content: center; margin: auto; padding: 50px 18px 34px; animation: question-in .36s cubic-bezier(.2,.8,.2,1) both; }
-.question-copy { margin-bottom: 38px; }
-.scene { margin: 0 0 13px; color: #af99fa; font-size: 12px; font-weight: 800; letter-spacing: .03em; }
-.question-copy h1 { margin: 0; font-size: clamp(34px, 9vw, 58px); line-height: 1.08; letter-spacing: -.06em; }
+.question-copy { margin-bottom: 32px; }
+.question-number { display: block; margin-bottom: 15px; color: #af99fa; font-size: 10px; font-weight: 900; letter-spacing: .14em; }
+.question-copy h1 { max-width: 650px; margin: 0; font-size: clamp(23px, 5vw, 32px); line-height: 1.48; letter-spacing: -.035em; }
+.question-prompt { margin: 15px 0 0; color: rgba(255,255,255,.62); font-size: clamp(14px, 3.3vw, 17px); font-weight: 700; line-height: 1.6; }
 .answer-list { display: grid; gap: 10px; }
 .answer-list button { width: 100%; min-height: 86px; display: grid; grid-template-columns: 27px 1fr 18px; align-items: center; gap: 8px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.15); border-radius: 2px; color: #fff; background: rgba(255,255,255,.045); text-align: left; cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
 .answer-list button > span { color: #a98dfc; font-size: 11px; font-weight: 900; }
