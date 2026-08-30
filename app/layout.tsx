@@ -5,18 +5,18 @@ import './globals.css';
 const geist = Geist({ variable: '--font-geist', subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'スピタイプ診断｜12の質問でわかる、あなたの運命観',
-  description: '運・偶然・未来をどう捉える？12の質問から、あなたのスピリチュアル観を16タイプで診断します。',
+  title: 'スピタイプ診断｜運命の信じ方、16タイプ。',
+  description: '恋愛、推し、バイト、偶然。12問で“運の信じ方”を16体のキャラクターに。',
   openGraph: {
     title: 'スピタイプ診断',
-    description: '12の質問でわかる、あなたの運命観。',
+    description: '運命の信じ方、16タイプ。',
     type: 'website',
     images: [{ url: '/og.png', width: 1200, height: 630, alt: 'スピタイプ診断' }],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'スピタイプ診断',
-    description: '12の質問でわかる、あなたの運命観。',
+    description: '運命の信じ方、16タイプ。',
     images: ['/og.png'],
   },
 };
