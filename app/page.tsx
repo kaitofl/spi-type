@@ -159,7 +159,7 @@ function MysticSigil({ compact = false }: { compact?: boolean }) {
     <svg className={compact ? 'mystic-sigil compact' : 'mystic-sigil'} viewBox="0 0 640 640" aria-hidden="true">
       <defs>
         <linearGradient id="sigil-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#dff7ff" />
+          <stop offset="0" stopColor="#ff3d9a" />
           <stop offset=".48" stopColor="#7c5cff" />
           <stop offset="1" stopColor="#4de7ff" />
         </linearGradient>
