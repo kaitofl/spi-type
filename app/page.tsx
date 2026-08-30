@@ -15,32 +15,32 @@ type Axis = {
 };
 
 const axes: Axis[] = [
-  { id: 1, category: '世界', question: '同じ数字を何度も見たら？', left: '意味のある偶然', leftNote: '何かのサインかも', right: 'ただの偶然', rightNote: '意味は自分でつけるもの' },
-  { id: 2, category: '世界', question: '不思議なことを動かしているのは？', left: '誰かの意志', leftNote: '神様や守護存在の導き', right: '宇宙の法則', rightNote: '見えないルールが働く', strong: true },
-  { id: 3, category: '世界', question: 'いい行いをした人には？', left: 'いつか返ってくる', leftNote: '行いと運はつながっている', right: '運に善悪はない', rightNote: 'いい人にも悪いことは起きる' },
-  { id: 4, category: '世界', question: 'つらい経験には目的がある？', left: '魂の成長になる', leftNote: '乗り越えるための課題', right: '人生は人生', rightNote: '全部を修行にしなくていい' },
-  { id: 5, category: '世界', question: '人生が終わったあと、魂は？', left: 'また生まれ変わる', leftNote: '魂は何度も人生を経験する', right: 'この一生で完結', rightNote: '今の人生がすべて' },
-  { id: 6, category: '世界', question: '古い木や大切な物に心はある？', left: '何にでも気配がある', leftNote: '自然や物にも魂を感じる', right: '人だけに心がある', rightNote: '人が気持ちを重ねている' },
-  { id: 7, category: '世界', question: '神秘を感じるのはどこ？', left: 'いつもの日常', leftNote: '毎日の中に神秘はある', right: '特別な場所', rightNote: '神社や聖地に強く宿る' },
-  { id: 8, category: '運との付き合い', question: 'ほしい未来に近づくには？', left: '自分で引き寄せる', leftNote: '意識や言葉で現実を動かす', right: '流れに委ねる', rightNote: '力まず、来たものを受け取る', strong: true },
-  { id: 9, category: '運との付き合い', question: '運をよくしてくれるのは？', left: '自分で開運', leftNote: '習慣や行動でつかむ', right: '誰かのご加護', rightNote: '神様や先祖から授かる' },
-  { id: 10, category: '運との付き合い', question: 'スピの感覚はどう身につく？', left: '生まれつき', leftNote: '持って生まれた才能や体質', right: 'あとから開花', rightNote: '経験や練習で目覚める' },
-  { id: 11, category: '運との付き合い', question: 'イヤな空気を感じたら？', left: '悪いものを防ぐ', leftNote: '浄化やお守りで距離を置く', right: 'いったん受け入れる', rightNote: '意味や正体を見つめる' },
-  { id: 12, category: '運との付き合い', question: '占いやスピに求めるものは？', left: '願いを叶える', leftNote: '恋愛や仕事をいい方向へ', right: '自分を知る', rightNote: '本当の気持ちを見つける', strong: true },
-  { id: 13, category: '運との付き合い', question: '未来が気に入らなかったら？', left: '未来を変えにいく', leftNote: '占いや儀式で流れに介入する', right: '流れを見届ける', rightNote: '意味を読み、受け入れる' },
-  { id: 14, category: 'サイン', question: '迷ったとき、より信じるのは？', left: '自分の直感', leftNote: '夢やひらめき、身体感覚', right: '外からのサイン', rightNote: 'カード、星、数字、偶然', strong: true },
-  { id: 15, category: 'サイン', question: '見えないものを理解するなら？', left: '肌で感じる', leftNote: '空気や波動を頼りにする', right: 'ルールで読み解く', rightNote: '占術の体系を学んで読む' },
-  { id: 16, category: 'サイン', question: '見えない存在とつながるなら？', left: '自分で直接感じる', leftNote: '自分の感覚で受け取りたい', right: '何かを通して感じる', rightNote: '占い師やカードを通して受け取る' },
-  { id: 17, category: 'サイン', question: '占いの答えにほしいのは？', left: 'ハッキリした答え', leftNote: '具体的にどうすべきか知りたい', right: '考える余白', rightNote: '象徴を自分なりに解釈したい' },
-  { id: 18, category: 'サイン', question: 'どっちの「わかる」がほしい？', left: '未来を先に知る', leftNote: 'この先に備えたい', right: 'あとから意味を知る', rightNote: 'なぜ起きたか納得したい' },
-  { id: 19, category: 'サイン', question: 'メッセージはどう届く？', left: '言葉で届く', leftNote: 'お告げやフレーズが浮かぶ', right: '映像で届く', rightNote: '夢や色、イメージで見える' },
-  { id: 20, category: '信じ方', question: 'いろんな占いや教えに出会ったら？', left: '一つを深く', leftNote: '信頼する道を極めたい', right: 'いいとこ取り', rightNote: '合う部分をミックスしたい' },
-  { id: 21, category: '信じ方', question: '信じ方のスタイルは？', left: '昔からのやり方', leftNote: '伝統や正式な作法を大切にする', right: '自分なりのやり方', rightNote: '自分に合う形へ自由に変える' },
-  { id: 22, category: '信じ方', question: '何かを信じ始めるタイミングは？', left: '体験してから', leftNote: '当たった、効いた実感が必要', right: 'ピンときたら', rightNote: '説明できなくても信じられる' },
-  { id: 23, category: '信じ方', question: '占いやお参りを使う頻度は？', left: '毎日の相棒', leftNote: '日常的に頼りたい', right: '大事なときだけ', rightNote: '人生の節目で頼りたい' },
-  { id: 24, category: '信じ方', question: 'スピを楽しむなら？', left: '一人で探求', leftNote: '静かに自分の世界を深めたい', right: '仲間と共有', rightNote: '同じ感覚の人と楽しみたい' },
-  { id: 25, category: '信じ方', question: 'スピは自分にとって？', left: '楽しいエンタメ', leftNote: '気軽に占いや診断を楽しむ', right: '人生の指針', rightNote: '大切な決断にも取り入れる' },
-  { id: 26, category: '信じ方', question: '自分のスピ観を人に話したい？', left: 'オープンに話す', leftNote: '好きなものとして共有したい', right: '自分だけのもの', rightNote: '心の中で静かに大切にしたい' },
+  { id: 1, category: '世界', question: '偶然の意味', left: '意味のある偶然', leftNote: '', right: 'ただの偶然', rightNote: '' },
+  { id: 2, category: '世界', question: '神秘を動かすもの', left: '神様や守護存在の意志', leftNote: '', right: '宇宙の法則', rightNote: '', strong: true },
+  { id: 3, category: '世界', question: '行いと運の関係', left: 'いつか返ってくる', leftNote: '', right: '運に善悪はない', rightNote: '' },
+  { id: 4, category: '世界', question: 'つらい経験の意味', left: '魂の成長になる', leftNote: '', right: 'すべてに意味はない', rightNote: '' },
+  { id: 5, category: '世界', question: '魂の行方', left: 'また生まれ変わる', leftNote: '', right: 'この一生で完結', rightNote: '' },
+  { id: 6, category: '世界', question: '物や自然の魂', left: '何にでも気配がある', leftNote: '', right: '心があるのは人だけ', rightNote: '' },
+  { id: 7, category: '世界', question: '神秘が宿る場所', left: '日常のどこにでも宿る', leftNote: '', right: '特別な場所に宿る', rightNote: '' },
+  { id: 8, category: '運との付き合い', question: '未来のつくり方', left: '自分で引き寄せる', leftNote: '', right: '流れに委ねる', rightNote: '', strong: true },
+  { id: 9, category: '運との付き合い', question: '運のもらい方', left: '自分で運を開く', leftNote: '', right: '誰かのご加護を受ける', rightNote: '' },
+  { id: 10, category: '運との付き合い', question: 'スピ感覚の身につき方', left: '生まれつき持っている', leftNote: '', right: 'あとから開花する', rightNote: '' },
+  { id: 11, category: '運との付き合い', question: 'イヤな気配への反応', left: '悪いものを防ぐ', leftNote: '', right: 'いったん受け入れる', rightNote: '' },
+  { id: 12, category: '運との付き合い', question: 'スピを使う目的', left: '願いを叶えるため', leftNote: '', right: '自分を知るため', rightNote: '', strong: true },
+  { id: 13, category: '運との付き合い', question: '未来との向き合い方', left: '未来を変えにいく', leftNote: '', right: '流れを見届ける', rightNote: '' },
+  { id: 14, category: 'サイン', question: '答えの受け取り方', left: '自分の直感', leftNote: '', right: '外からのサイン', rightNote: '', strong: true },
+  { id: 15, category: 'サイン', question: '神秘の理解方法', left: '肌で感じる', leftNote: '', right: 'ルールで読み解く', rightNote: '' },
+  { id: 16, category: 'サイン', question: '見えない存在とのつながり方', left: '自分で直接つながる', leftNote: '', right: '何かを通してつながる', rightNote: '' },
+  { id: 17, category: 'サイン', question: '占いに求める答え', left: 'ハッキリした答え', leftNote: '', right: '考える余白', rightNote: '' },
+  { id: 18, category: 'サイン', question: '知りたい時間', left: '未来を先に知りたい', leftNote: '', right: 'あとから意味を知りたい', rightNote: '' },
+  { id: 19, category: 'サイン', question: 'メッセージの形', left: '言葉で届く', leftNote: '', right: '映像で届く', rightNote: '' },
+  { id: 20, category: '信じ方', question: '教えとの付き合い方', left: '一つを深く', leftNote: '', right: 'いいとこ取り', rightNote: '' },
+  { id: 21, category: '信じ方', question: '信じ方のスタイル', left: '昔からのやり方', leftNote: '', right: '自分なりのやり方', rightNote: '' },
+  { id: 22, category: '信じ方', question: '信じ始めるきっかけ', left: '体験してから信じる', leftNote: '', right: 'ピンときたら信じる', rightNote: '' },
+  { id: 23, category: '信じ方', question: 'スピを使う頻度', left: '毎日の相棒', leftNote: '', right: '大事なときだけ', rightNote: '' },
+  { id: 24, category: '信じ方', question: 'スピの楽しみ方', left: '一人で探求', leftNote: '', right: '仲間と共有', rightNote: '' },
+  { id: 25, category: '信じ方', question: 'スピとの距離', left: '楽しいエンタメ', leftNote: '', right: '人生の指針', rightNote: '' },
+  { id: 26, category: '信じ方', question: 'スピ観の見せ方', left: 'オープンに話す', leftNote: '', right: '自分だけのもの', rightNote: '' },
 ];
 
 const categories = ['すべて', '世界', '運との付き合い', 'サイン', '信じ方'] as const;
@@ -114,15 +114,8 @@ export default function Home() {
                 </div>
                 <h3>{axis.question}</h3>
                 <div className="axis-choices">
-                  <div>
-                    <strong>{axis.left}</strong>
-                    <span>{axis.leftNote}</span>
-                  </div>
-                  <b>OR</b>
-                  <div>
-                    <strong>{axis.right}</strong>
-                    <span>{axis.rightNote}</span>
-                  </div>
+                  <div><b>A</b><strong>{axis.left}<em>タイプ</em></strong></div>
+                  <div><b>B</b><strong>{axis.right}<em>タイプ</em></strong></div>
                 </div>
               </article>
           ))}

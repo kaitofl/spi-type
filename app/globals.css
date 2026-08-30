@@ -112,12 +112,13 @@ button { font: inherit; }
 .axis-meta { display: flex; align-items: center; gap: 9px; margin-bottom: 12px; color: #8a858e; font-size: 10px; font-weight: 800; letter-spacing: .06em; }
 .axis-meta span:first-child { color: #7358e7; font-size: 12px; }
 .strong-label { padding: 3px 7px; color: #5f45c9; background: #e9e2ff; border-radius: 999px; letter-spacing: 0; }
-.axis-item h3 { margin: 0 0 24px; font-size: 15px; line-height: 1.6; }
-.axis-choices { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; }
-.axis-choices > div { min-width: 0; }
-.axis-choices strong { display: block; font-size: clamp(18px, 5.4vw, 23px); line-height: 1.28; letter-spacing: -.045em; }
-.axis-choices span { display: block; margin-top: 8px; color: #77717d; font-size: 11px; line-height: 1.6; }
-.axis-choices b { color: #8b72ec; font-size: 9px; letter-spacing: .1em; }
+.axis-item h3 { margin: 0 0 18px; color: #77717d; font-size: 12px; line-height: 1.6; letter-spacing: .04em; }
+.axis-choices { display: grid; gap: 8px; }
+.axis-choices > div { display: grid; grid-template-columns: 34px minmax(0, 1fr); align-items: center; min-height: 58px; padding: 10px 14px; border: 1px solid #ddd8e3; border-radius: 14px; background: rgba(255,255,255,.54); }
+.axis-choices b { display: grid; place-items: center; width: 25px; height: 25px; border-radius: 50%; color: white; background: #7358e7; font-size: 11px; }
+.axis-choices > div:nth-child(2) b { color: #4e4656; background: #e4e0e7; }
+.axis-choices strong { font-size: clamp(16px, 4.8vw, 20px); line-height: 1.4; letter-spacing: -.035em; }
+.axis-choices em { margin-left: 4px; font-size: .68em; font-style: normal; font-weight: 700; letter-spacing: 0; }
 .why-section { padding: 80px max(22px, calc((100vw - 760px) / 2)) 90px; color: white; background: #1b1720; }
 .why-section h2 { margin: 0; font-size: 42px; line-height: 1.08; letter-spacing: -.055em; }
 .why-section > p:not(.kicker) { margin: 20px 0 0; color: #aaa4ae; font-size: 13px; line-height: 1.8; }
@@ -136,8 +137,7 @@ footer strong { color: #1b1820; font-size: 15px; }
   .guide { padding: 23px 28px; }
   .axis-section { padding-top: 110px; }
   .axis-item { padding: 42px 12px 46px; }
-  .axis-choices { gap: 30px; }
-  .axis-choices span { font-size: 12px; }
+  .axis-choices { gap: 10px; }
   .why-section li strong { font-size: 22px; }
 }
 
