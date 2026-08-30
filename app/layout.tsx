@@ -7,6 +7,10 @@ const geist = Geist({ variable: '--font-geist', subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'スピタイプ診断｜運命の信じ方、16タイプ。',
   description: '恋愛、推し、バイト、偶然。12問で“運の信じ方”を16体のキャラクターに。',
+  icons: {
+    icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
+    shortcut: '/favicon.svg',
+  },
   openGraph: {
     title: 'スピタイプ診断',
     description: '運命の信じ方、16タイプ。',

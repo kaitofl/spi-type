@@ -73,7 +73,7 @@ const questions: Question[] = [
     dimension: 'flow',
     scene: '新月の夜に願いを書いた。翌日、ずっと欲しかった話が舞い込んできた。',
     prompt: 'この幸運の続きは？',
-    a: '叶った分、どこかで運の帳尻が合う',
+    a: 'いいことが起きた分、次は何か悪いことが起こるかも',
     b: 'いい波に乗った。次の幸運も呼び込む',
   },
   {
@@ -159,7 +159,7 @@ function MysticSigil({ compact = false }: { compact?: boolean }) {
     <svg className={compact ? 'mystic-sigil compact' : 'mystic-sigil'} viewBox="0 0 640 640" aria-hidden="true">
       <defs>
         <linearGradient id="sigil-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stopColor="#c7ff45" />
+          <stop offset="0" stopColor="#dff7ff" />
           <stop offset=".48" stopColor="#7c5cff" />
           <stop offset="1" stopColor="#4de7ff" />
         </linearGradient>
