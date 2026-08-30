@@ -1,7 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { ChevronDown, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 
 type Axis = {
   id: number;
@@ -58,20 +58,14 @@ export default function Home() {
       <header className="site-header">
         <a href="#top" className="brand" aria-label="スピタイプ診断 トップへ">
           <Sparkles aria-hidden="true" />
-          <span>スピタイプ診断</span>
+          <span>スピタイプ軸ノート</span>
         </a>
-        <span className="header-note">軸アイデアノート</span>
+        <span className="header-note">26 AXIS PATTERNS</span>
       </header>
 
       <section className="intro" id="top">
         <p className="kicker">16タイプをつくる、軸候補</p>
-        <h1>スピの違いを、<br />超わかりやすく。</h1>
-        <p className="intro-text">
-          正解を決める診断じゃない。<br />「自分はこっちかも」で選んでみよう。
-        </p>
-        <a className="jump-link" href="#axis-list">
-          候補を見る <ChevronDown aria-hidden="true" />
-        </a>
+        <h1>スピの軸の<br />パターンを整理</h1>
       </section>
 
       <section className="guide" aria-label="この資料の見方">
@@ -81,10 +75,7 @@ export default function Home() {
 
       <section className="axis-section" id="axis-list">
         <div className="axis-heading">
-          <div>
-            <p className="kicker dark">AXIS IDEAS</p>
-            <h2>どっちに近い？</h2>
-          </div>
+          <p className="kicker dark">AXIS PATTERNS</p>
           <span>{axes.length}候補</span>
         </div>
 
@@ -110,7 +101,7 @@ export default function Home() {
                 <div className="axis-meta">
                   <span>{String(axis.id).padStart(2, '0')}</span>
                   <span>{axis.category}</span>
-                  {axis.strong && <span className="strong-label">推し軸</span>}
+                  {axis.strong && <span className="strong-label">有力候補</span>}
                 </div>
                 <h3>{axis.question}</h3>
                 <div className="axis-choices">
