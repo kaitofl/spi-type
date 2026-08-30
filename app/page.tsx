@@ -1,9 +1,7 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Check, ChevronDown, Copy, Sparkles, X } from 'lucide-react';
-
-import { Button } from '@/components/ui/button';
+import { ChevronDown, Sparkles } from 'lucide-react';
 
 type Axis = {
   id: number;
@@ -39,33 +37,14 @@ const categories = ['すべて', '世界', '運との付き合い', 'サイン',
 
 export default function Home() {
   const [category, setCategory] = useState<(typeof categories)[number]>('すべて');
-  const [selected, setSelected] = useState<number[]>([]);
-  const [showSelection, setShowSelection] = useState(false);
-  const [copied, setCopied] = useState(false);
 
   const filteredAxes = useMemo(
     () => (category === 'すべて' ? axes : axes.filter((axis) => axis.category === category)),
     [category],
   );
-  const selectedAxes = axes.filter((axis) => selected.includes(axis.id));
-
-  function toggleAxis(id: number) {
-    setSelected((current) =>
-      current.includes(id) ? current.filter((item) => item !== id) : [...current, id],
-    );
-  }
-
-  async function copySelection() {
-    const text = selectedAxes
-      .map((axis) => `${String(axis.id).padStart(2, '0')}. ${axis.left} ↔ ${axis.right}`)
-      .join('\n');
-    await navigator.clipboard.writeText(`スピタイプ診断・気になる軸\n${text}`);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1800);
-  }
 
   return (
-    <main className="min-h-screen pb-28">
+    <main className="min-h-screen">
       <header className="site-header">
         <a href="#top" className="brand" aria-label="スピタイプ診断 トップへ">
           <Sparkles aria-hidden="true" />
@@ -85,9 +64,9 @@ export default function Home() {
         </a>
       </section>
 
-      <section className="guide" aria-label="使い方">
-        <span>使い方</span>
-        <p><strong>気になる軸をキープ。</strong> 4本選ぶと16タイプの土台になります。</p>
+      <section className="guide" aria-label="この資料の見方">
+        <span>見かた</span>
+        <p><strong>左右を見比べるだけ。</strong> 人によって答えが分かれそうな4本を探すための資料です。</p>
       </section>
 
       <section className="axis-section" id="axis-list">
@@ -115,9 +94,7 @@ export default function Home() {
         </div>
 
         <div className="axis-list">
-          {filteredAxes.map((axis) => {
-            const isSelected = selected.includes(axis.id);
-            return (
+          {filteredAxes.map((axis) => (
               <article className="axis-item" key={axis.id}>
                 <div className="axis-meta">
                   <span>{String(axis.id).padStart(2, '0')}</span>
@@ -136,19 +113,8 @@ export default function Home() {
                     <span>{axis.rightNote}</span>
                   </div>
                 </div>
-                <Button
-                  type="button"
-                  variant={isSelected ? 'default' : 'outline'}
-                  aria-pressed={isSelected}
-                  className="keep-button"
-                  onClick={() => toggleAxis(axis.id)}
-                >
-                  {isSelected ? <Check aria-hidden="true" /> : <Sparkles aria-hidden="true" />}
-                  {isSelected ? 'キープ中' : 'この軸をキープ'}
-                </Button>
               </article>
-            );
-          })}
+          ))}
         </div>
       </section>
 
@@ -171,39 +137,6 @@ export default function Home() {
         <span>どちらが正しいかではなく、どちらに心が動くか。</span>
       </footer>
 
-      {selected.length > 0 && (
-        <div className="selection-dock">
-          <button type="button" onClick={() => setShowSelection(true)}>
-            <span><b>{selected.length}</b>本キープ中</span>
-            <span>選んだ軸を見る</span>
-          </button>
-        </div>
-      )}
-
-      {showSelection && (
-        <div className="selection-overlay" role="dialog" aria-modal="true" aria-labelledby="selection-title">
-          <button className="overlay-backdrop" aria-label="閉じる" onClick={() => setShowSelection(false)} />
-          <section className="selection-sheet">
-            <div className="sheet-handle" aria-hidden="true" />
-            <div className="sheet-title">
-              <div><span>YOUR SHORTLIST</span><h2 id="selection-title">気になった軸</h2></div>
-              <Button variant="ghost" size="icon" aria-label="閉じる" onClick={() => setShowSelection(false)}><X /></Button>
-            </div>
-            <div className="selected-list">
-              {selectedAxes.map((axis) => (
-                <div key={axis.id}>
-                  <span>{String(axis.id).padStart(2, '0')}</span>
-                  <strong>{axis.left} ↔ {axis.right}</strong>
-                  <Button variant="ghost" size="icon" aria-label={`${axis.left}と${axis.right}を外す`} onClick={() => toggleAxis(axis.id)}><X /></Button>
-                </div>
-              ))}
-            </div>
-            <Button className="copy-button" onClick={copySelection}>
-              {copied ? <Check /> : <Copy />}{copied ? 'コピーしました' : 'まとめてコピー'}
-            </Button>
-          </section>
-        </div>
-      )}
     </main>
   );
 }
