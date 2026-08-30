@@ -5,18 +5,18 @@ import './globals.css';
 const geist = Geist({ variable: '--font-geist', subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'スピタイプ軸ノート｜26の軸パターン',
-  description: 'あなたのスピリチュアル観を16タイプに。診断の土台になる、わかりやすい二択軸のアイデア集。',
+  title: 'スピタイプ診断｜12の質問でわかる、あなたの運命観',
+  description: '運・偶然・未来をどう捉える？12の質問から、あなたのスピリチュアル観を16タイプで診断します。',
   openGraph: {
-    title: 'スピタイプ軸ノート｜26の軸パターン',
-    description: 'スピの軸のパターンを、26候補からわかりやすく整理。',
+    title: 'スピタイプ診断',
+    description: '12の質問でわかる、あなたの運命観。',
     type: 'website',
     images: [{ url: '/og.png', width: 1200, height: 630, alt: 'スピタイプ診断' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'スピタイプ軸ノート｜26の軸パターン',
-    description: 'スピの軸のパターンを、26候補からわかりやすく整理。',
+    title: 'スピタイプ診断',
+    description: '12の質問でわかる、あなたの運命観。',
     images: ['/og.png'],
   },
 };

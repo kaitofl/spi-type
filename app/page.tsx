@@ -1,137 +1,326 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { ArrowRight, ChevronLeft, Copy, RotateCcw, Sparkles } from 'lucide-react';
 
-type Axis = {
-  id: number;
-  category: '世界' | '運との付き合い' | 'サイン' | '信じ方';
-  question: string;
-  left: string;
-  leftNote: string;
-  right: string;
-  rightNote: string;
-  strong?: boolean;
+type Dimension = 'outlook' | 'fate' | 'flow' | 'agency';
+type ChoiceValue = -1 | 1;
+
+type Question = {
+  dimension: Dimension;
+  prompt: string;
+  scene: string;
+  a: string;
+  b: string;
 };
 
-const axes: Axis[] = [
-  { id: 1, category: '世界', question: '偶然の意味', left: '意味のある偶然', leftNote: '偶然の一致にもサインや意味を感じる', right: 'ただの偶然', rightNote: '偶然は偶然で、意味はあとからつける' },
-  { id: 2, category: '世界', question: '神秘を動かすもの', left: '神様や守護存在の意志', leftNote: '神様や守護存在が出来事を導くと思う', right: '宇宙の法則', rightNote: '人格ではなく、見えない法則が働くと思う', strong: true },
-  { id: 3, category: '世界', question: '行いと運の関係', left: 'いつか返ってくる', leftNote: '善い行いは巡って自分に返ると思う', right: '運に善悪はない', rightNote: '運の良し悪しと人の善悪は別だと思う' },
-  { id: 4, category: '世界', question: 'つらい経験の意味', left: '魂の成長になる', leftNote: 'つらい経験も魂を育てる課題だと思う', right: 'すべてに意味はない', rightNote: 'すべての苦しみに意味があるとは思わない' },
-  { id: 5, category: '世界', question: '魂の行方', left: 'また生まれ変わる', leftNote: '魂は何度も別の人生を経験すると思う', right: 'この一生で完結', rightNote: '魂や人生は今の一度で完結すると思う' },
-  { id: 6, category: '世界', question: '物や自然の魂', left: '何にでも気配がある', leftNote: '自然や物にも魂や気配が宿ると感じる', right: '心があるのは人だけ', rightNote: '心や意識を持つのは人間だと思う' },
-  { id: 7, category: '世界', question: '神秘が宿る場所', left: '日常のどこにでも宿る', leftNote: '普通の毎日の中にも神秘を感じる', right: '特別な場所に宿る', rightNote: '神社や聖地など特別な場所で強く感じる' },
-  { id: 8, category: '運との付き合い', question: '未来のつくり方', left: '自分で引き寄せる', leftNote: '意識や言葉で望む現実を引き寄せる', right: '流れに委ねる', rightNote: '力まず、大きな流れに任せる方がうまくいく', strong: true },
-  { id: 9, category: '運との付き合い', question: '運のもらい方', left: '自分で運を開く', leftNote: '習慣や行動を変えて自分で運をよくする', right: '誰かのご加護を受ける', rightNote: '神様や先祖に守られ、運を授かる' },
-  { id: 10, category: '運との付き合い', question: 'スピ感覚の身につき方', left: '生まれつき持っている', leftNote: '感覚の鋭さは生まれつき決まると思う', right: 'あとから開花する', rightNote: '経験や練習によってあとから目覚めると思う' },
-  { id: 11, category: '運との付き合い', question: 'イヤな気配への反応', left: '悪いものを防ぐ', leftNote: '浄化やお守りで悪い気配を遠ざける', right: 'いったん受け入れる', rightNote: '拒まず、気配の意味や正体を見つめる' },
-  { id: 12, category: '運との付き合い', question: 'スピを使う目的', left: '願いを叶えるため', leftNote: '恋愛や仕事など、望む結果を得るために使う', right: '自分を知るため', rightNote: '自分の本音や性質を理解するために使う', strong: true },
-  { id: 13, category: '運との付き合い', question: '未来との向き合い方', left: '未来を変えにいく', leftNote: '占いや儀式を使って未来の流れを変える', right: '流れを見届ける', rightNote: '起きる流れを読み、そのまま受け入れる' },
-  { id: 14, category: 'サイン', question: '答えの受け取り方', left: '自分の直感', leftNote: '夢やひらめきなど、自分の内側を信じる', right: '外からのサイン', rightNote: 'カードや数字など、外に現れた印を信じる', strong: true },
-  { id: 15, category: 'サイン', question: '神秘の理解方法', left: '肌で感じる', leftNote: '空気・波動・身体の反応で理解する', right: 'ルールで読み解く', rightNote: '占星術やカードのルールを学んで理解する' },
-  { id: 16, category: 'サイン', question: '見えない存在とのつながり方', left: '自分で直接つながる', leftNote: '自分の感覚で存在や世界と直接つながる', right: '何かを通してつながる', rightNote: '占い師やカードなどの媒介を通してつながる' },
-  { id: 17, category: 'サイン', question: '占いに求める答え', left: 'ハッキリした答え', leftNote: '未来や行動について具体的な答えがほしい', right: '考える余白', rightNote: '象徴を受け取り、自分で意味を考えたい' },
-  { id: 18, category: 'サイン', question: '知りたい時間', left: '未来を先に知りたい', leftNote: 'これから何が起きるかを先に知りたい', right: 'あとから意味を知りたい', rightNote: '起きた出来事の意味をあとから理解したい' },
-  { id: 19, category: 'サイン', question: 'メッセージの形', left: '言葉で届く', leftNote: 'お告げやフレーズとして言葉が浮かぶ', right: '映像で届く', rightNote: '夢・色・映像などイメージとして見える' },
-  { id: 20, category: '信じ方', question: '教えとの付き合い方', left: '一つを深く', leftNote: '一つの宗教や占術を深く信じたい', right: 'いいとこ取り', rightNote: '複数の教えから合う部分だけ取り入れたい' },
-  { id: 21, category: '信じ方', question: '信じ方のスタイル', left: '昔からのやり方', leftNote: '古くから続く教えや正式な作法を守りたい', right: '自分なりのやり方', rightNote: '自分に合う形へ自由にアレンジしたい' },
-  { id: 22, category: '信じ方', question: '信じ始めるきっかけ', left: '体験してから信じる', leftNote: '当たった・効いたという体験をしてから信じる', right: 'ピンときたら信じる', rightNote: '説明できなくても直感でピンときたら信じる' },
-  { id: 23, category: '信じ方', question: 'スピを使う頻度', left: '毎日の相棒', leftNote: '今日の運勢など、日常的にスピを使う', right: '大事なときだけ', rightNote: '転職や恋愛など、大きな節目だけ頼る' },
-  { id: 24, category: '信じ方', question: 'スピの楽しみ方', left: '一人で探求', leftNote: '一人で静かに自分の世界を深めたい', right: '仲間と共有', rightNote: '同じ感覚を持つ仲間と一緒に楽しみたい' },
-  { id: 25, category: '信じ方', question: 'スピとの距離', left: '楽しいエンタメ', leftNote: '占いや診断を気軽な遊びとして楽しむ', right: '人生の指針', rightNote: '大切な決断にもスピの考えを取り入れる' },
-  { id: 26, category: '信じ方', question: 'スピ観の見せ方', left: 'オープンに話す', leftNote: '好きなものとして自分の考えを人に話したい', right: '自分だけのもの', rightNote: '個人的で大切なものとして心にしまいたい' },
+type AxisResult = {
+  code: string;
+  label: string;
+  short: string;
+};
+
+type TypeResult = {
+  name: string;
+  catchphrase: string;
+  description: string;
+};
+
+const questions: Question[] = [
+  {
+    dimension: 'outlook',
+    scene: '予定外の変化が起きたとき',
+    prompt: '最初に浮かぶのは？',
+    a: 'ここから面白い展開になるかも',
+    b: 'この先もっと悪くならないか心配',
+  },
+  {
+    dimension: 'outlook',
+    scene: '楽しみにしていた計画が崩れたとき',
+    prompt: '近い捉え方は？',
+    a: '代わりにもっと良いことがありそう',
+    b: '嫌な流れの始まりかもしれない',
+  },
+  {
+    dimension: 'outlook',
+    scene: 'まだ何も決まっていない未来を考えると',
+    prompt: 'どちらを感じやすい？',
+    a: '期待。きっと何とかなると思う',
+    b: '警戒。最悪の場合も考えておく',
+  },
+  {
+    dimension: 'fate',
+    scene: '人生を変えるような出会いは',
+    prompt: 'どうやって起きると思う？',
+    a: '選択を重ねた先で、偶然生まれる',
+    b: '出会うことが、最初から決まっている',
+  },
+  {
+    dimension: 'fate',
+    scene: '大きなチャンスを逃したとき',
+    prompt: 'どちらに近い？',
+    a: '別の選択なら未来は変わっていた',
+    b: 'その道は自分の運命ではなかった',
+  },
+  {
+    dimension: 'fate',
+    scene: '人生の大きな転機は',
+    prompt: '何だと思う？',
+    a: 'そこから新しい未来が分かれる分岐点',
+    b: '決められた物語が動き出すタイミング',
+  },
+  {
+    dimension: 'flow',
+    scene: '悪いことが続いたあと',
+    prompt: '次に起きそうなのは？',
+    a: 'そろそろ良いことが来て釣り合う',
+    b: '流れを変えない限り、悪い方へ続く',
+  },
+  {
+    dimension: 'flow',
+    scene: '大きな幸運が舞い込んだとき',
+    prompt: '心のどこかで思うのは？',
+    a: '運を使った分、反動が来るかもしれない',
+    b: 'この幸運が次の幸運を連れてきそう',
+  },
+  {
+    dimension: 'flow',
+    scene: '人生の運の動きは',
+    prompt: 'どちらのイメージ？',
+    a: '上がり下がりしながら、均衡に戻る',
+    b: '勢いがつくと、同じ方向へ加速する',
+  },
+  {
+    dimension: 'agency',
+    scene: '最近ついていないと感じたら',
+    prompt: 'まずどうする？',
+    a: '習慣や行動を変えて、運を動かす',
+    b: '焦らず、良いタイミングが来るのを待つ',
+  },
+  {
+    dimension: 'agency',
+    scene: 'チャンスとの出会い方は',
+    prompt: 'どちらが近い？',
+    a: '動いた人が、自分で見つけてつかむもの',
+    b: '必要なときに、縁として届けられるもの',
+  },
+  {
+    dimension: 'agency',
+    scene: '願いを叶えるために大切なのは',
+    prompt: 'どちらだと思う？',
+    a: '自分から働きかけて流れをつくること',
+    b: '大きな流れを信じて、受け取ること',
+  },
 ];
 
-const categories = ['すべて', '世界', '運との付き合い', 'サイン', '信じ方'] as const;
+const axisDefinitions: Record<Dimension, { positive: AxisResult; negative: AxisResult }> = {
+  outlook: {
+    positive: { code: 'P', label: 'ポジティブ', short: '出来事の先に、良い可能性を見つける' },
+    negative: { code: 'N', label: 'ネガティブ', short: '悪い可能性を先読みし、自分を守る' },
+  },
+  fate: {
+    positive: { code: 'B', label: '分岐', short: '選択や出来事によって、未来は変わる' },
+    negative: { code: 'D', label: '既定', short: '起きることには、決められた流れがある' },
+  },
+  flow: {
+    positive: { code: 'E', label: '帳尻', short: '運は上がり下がりしながら釣り合う' },
+    negative: { code: 'C', label: '連鎖', short: '良い流れも悪い流れも、勢いで続いていく' },
+  },
+  agency: {
+    positive: { code: 'M', label: '開運', short: '行動によって、自分で運を動かせる' },
+    negative: { code: 'R', label: '受運', short: '運はタイミングや縁として届けられる' },
+  },
+};
+
+const typeResults: Record<string, TypeResult> = {
+  PBEM: { name: '未来錬金術師', catchphrase: 'どんな出来事も、次の幸運の材料に。', description: '未来は選び直せて、運は自分で整えられると考えるタイプ。失敗さえも前向きに再利用できる、しなやかな開運上手です。' },
+  PBER: { name: '幸運の旅人', catchphrase: '寄り道の先で、いい縁に出会う。', description: '未来の分岐を楽しみながら、やって来るタイミングを信じるタイプ。無理に支配せず、流れの変化を味方につけます。' },
+  PBCM: { name: '上昇気流メーカー', catchphrase: 'ひとつの幸運から、次の幸運を起こす。', description: '良い流れは自分の行動で大きくできると考えるタイプ。小さなチャンスを見逃さず、人生に勢いをつくります。' },
+  PBCR: { name: 'シンクロサーファー', catchphrase: '来た波に乗れば、未来はもっと面白くなる。', description: '偶然の流れを軽やかに受け取り、そのたびに未来を更新するタイプ。幸運が連鎖する瞬間を直感的につかみます。' },
+  PDEM: { name: '運命チューナー', catchphrase: '決められた物語も、いい音に整えられる。', description: '大きな運命の流れを信じつつ、日々の行動でコンディションを整えるタイプ。現実感と信念のバランスが魅力です。' },
+  PDER: { name: '祝福の案内人', catchphrase: '必要な幸運は、必要なときに届く。', description: '人生には意味のある流れがあり、最後にはきちんと整うと信じるタイプ。穏やかな安心感を周囲にも分け与えます。' },
+  PDCM: { name: '約束されたスター', catchphrase: '運命の追い風を、自分でさらに強くする。', description: '自分には進むべき道があり、良い流れは連鎖すると信じるタイプ。決めたことを現実にする推進力があります。' },
+  PDCR: { name: '天命ドリーマー', catchphrase: 'すべては、最高の未来につながっている。', description: '縁もタイミングも大きな物語の一部だと感じるタイプ。流れを信じる力が強く、幸運の連鎖に自然と乗っていきます。' },
+  NBEM: { name: '厄除け戦略家', catchphrase: '悪い未来を読んで、先回りで変えていく。', description: 'リスクを見つける力と、流れを整える行動力を持つタイプ。慎重さを武器にして、未来の分岐を安全な方へ導きます。' },
+  NBER: { name: '兆しの観測者', catchphrase: '焦らず見極めれば、流れはまた整う。', description: '悪い兆しに早く気づきながら、運の波が戻る瞬間を待てるタイプ。静かな観察力で、無理のない道を選びます。' },
+  NBCM: { name: '悪運ブレイカー', catchphrase: '嫌な連鎖は、自分のところで断ち切る。', description: '悪い流れを敏感に察知し、行動によって未来を変えるタイプ。危機に強く、停滞した空気を動かす突破役です。' },
+  NBCR: { name: '嵐読みナビゲーター', catchphrase: '流れを読めば、嵐の中にも道はある。', description: '運の連鎖と変化の兆しを鋭く読むタイプ。受け取ったサインを頼りに、危険を避けながら新しい道を探します。' },
+  NDEM: { name: '宿命リバランサー', catchphrase: '決まった試練にも、整え方はきっとある。', description: '避けられない出来事を受け止めつつ、自分にできる備えを重ねるタイプ。崩れたバランスを現実的に立て直します。' },
+  NDER: { name: '静寂の守護者', catchphrase: '今は耐えるとき。流れが戻るまで静かに守る。', description: '運命の波と帳尻を信じ、慎重にタイミングを待つタイプ。軽率に動かず、大切なものを守り抜く強さがあります。' },
+  NDCM: { name: '運命に抗う騎士', catchphrase: '決められた悪い流れなら、自分で打ち破る。', description: '運命の存在を感じながらも、望まない連鎖には行動で立ち向かうタイプ。強い覚悟で状況を変える反骨の人です。' },
+  NDCR: { name: '深淵のオラクル', catchphrase: '見えない流れを読み、来るべき時を待つ。', description: '人生の背後にある大きな筋書きと、運の連鎖を深く感じるタイプ。表面に惑わされず、静かに兆しを読み取ります。' },
+};
+
+const dimensionOrder: Dimension[] = ['outlook', 'fate', 'flow', 'agency'];
 
 export default function Home() {
-  const [category, setCategory] = useState<(typeof categories)[number]>('すべて');
+  const [started, setStarted] = useState(false);
+  const [step, setStep] = useState(0);
+  const [answers, setAnswers] = useState<ChoiceValue[]>([]);
+  const [copied, setCopied] = useState(false);
 
-  const filteredAxes = useMemo(
-    () => (category === 'すべて' ? axes : axes.filter((axis) => axis.category === category)),
-    [category],
-  );
+  const completed = answers.length === questions.length;
+  const result = useMemo(() => {
+    if (!completed) return null;
+
+    const scores: Record<Dimension, number> = { outlook: 0, fate: 0, flow: 0, agency: 0 };
+    questions.forEach((question, index) => { scores[question.dimension] += answers[index]; });
+
+    const axes = dimensionOrder.map((dimension) =>
+      scores[dimension] > 0 ? axisDefinitions[dimension].positive : axisDefinitions[dimension].negative,
+    );
+    const code = axes.map((axis) => axis.code).join('');
+    return { code, axes, ...typeResults[code] };
+  }, [answers, completed]);
+
+  function answer(value: ChoiceValue) {
+    const next = [...answers.slice(0, step), value];
+    setAnswers(next);
+    setStep(step + 1);
+  }
+
+  function goBack() {
+    if (step === 0) {
+      setStarted(false);
+      return;
+    }
+    setStep(step - 1);
+    setAnswers(answers.slice(0, step - 1));
+  }
+
+  function restart() {
+    setStarted(false);
+    setStep(0);
+    setAnswers([]);
+    setCopied(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  async function shareResult() {
+    if (!result) return;
+    const text = `私のスピタイプは「${result.name}」でした。\n${result.catchphrase}\n#スピタイプ診断`;
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: 'スピタイプ診断', text, url: window.location.href });
+        return;
+      } catch {
+        // Sharing was cancelled, so leave the result as-is.
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(`${text}\n${window.location.href}`);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    } catch {
+      setCopied(false);
+    }
+  }
+
+  if (!started) {
+    return (
+      <main className="landing-shell">
+        <header className="site-header">
+          <a href="#top" className="brand" aria-label="スピタイプ診断 トップへ">
+            <Sparkles aria-hidden="true" />
+            <span>スピタイプ診断</span>
+          </a>
+          <span className="header-note">16 SPIRITUAL TYPES</span>
+        </header>
+
+        <section className="hero" id="top">
+          <div className="orb" aria-hidden="true"><span /></div>
+          <div className="hero-content">
+            <p className="kicker">12 QUESTIONS · 16 TYPES</p>
+            <h1>運命を、<br />どう信じてる？</h1>
+            <p className="hero-copy">運・偶然・未来の捉え方から、あなたの「スピタイプ」を診断します。</p>
+            <button className="primary-button" type="button" onClick={() => setStarted(true)}>
+              診断をはじめる <ArrowRight aria-hidden="true" />
+            </button>
+            <span className="time-note">全12問・約2分</span>
+          </div>
+        </section>
+
+        <section className="axis-preview" aria-label="診断する4つの軸">
+          <p className="kicker dark">FOUR AXES</p>
+          <h2>4つの運命観から、<br />あなたを読み解く。</h2>
+          <div className="preview-list">
+            <div><span>01</span><strong>ポジティブ</strong><i>↔</i><strong>ネガティブ</strong></div>
+            <div><span>02</span><strong>分岐</strong><i>↔</i><strong>既定</strong></div>
+            <div><span>03</span><strong>帳尻</strong><i>↔</i><strong>連鎖</strong></div>
+            <div><span>04</span><strong>開運</strong><i>↔</i><strong>受運</strong></div>
+          </div>
+        </section>
+
+        <footer><strong>スピタイプ診断</strong><span>正解ではなく、あなたの感じ方を選んでください。</span></footer>
+      </main>
+    );
+  }
+
+  if (result) {
+    return (
+      <main className="result-shell">
+        <header className="quiz-header">
+          <span className="brand"><Sparkles aria-hidden="true" />スピタイプ診断</span>
+          <span>RESULT</span>
+        </header>
+
+        <section className="result-hero">
+          <div className="result-glow" aria-hidden="true" />
+          <p className="result-eyebrow">あなたのスピタイプは</p>
+          <div className="type-code">{result.code}</div>
+          <h1>{result.name}</h1>
+          <p className="result-catch">{result.catchphrase}</p>
+        </section>
+
+        <section className="result-detail">
+          <p className="result-description">{result.description}</p>
+          <div className="result-axes">
+            {result.axes.map((axis, index) => (
+              <div key={axis.code}>
+                <span>0{index + 1}</span>
+                <strong>{axis.label}</strong>
+                <p>{axis.short}</p>
+              </div>
+            ))}
+          </div>
+          <button className="share-button" type="button" onClick={shareResult}>
+            <Copy aria-hidden="true" />{copied ? 'コピーしました' : '結果をシェアする'}
+          </button>
+          <button className="restart-button" type="button" onClick={restart}>
+            <RotateCcw aria-hidden="true" />もう一度診断する
+          </button>
+        </section>
+      </main>
+    );
+  }
+
+  const question = questions[step];
+  const progress = ((step + 1) / questions.length) * 100;
 
   return (
-    <main className="min-h-screen">
-      <header className="site-header">
-        <a href="#top" className="brand" aria-label="スピタイプ診断 トップへ">
-          <Sparkles aria-hidden="true" />
-          <span>スピタイプ軸ノート</span>
-        </a>
-        <span className="header-note">26 AXIS PATTERNS</span>
+    <main className="quiz-shell">
+      <header className="quiz-header">
+        <button type="button" className="back-button" onClick={goBack} aria-label="前へ戻る"><ChevronLeft /></button>
+        <span className="brand"><Sparkles aria-hidden="true" />スピタイプ診断</span>
+        <span>{String(step + 1).padStart(2, '0')} / {questions.length}</span>
       </header>
+      <div className="progress-track" aria-hidden="true"><span style={{ width: `${progress}%` }} /></div>
 
-      <section className="intro" id="top">
-        <p className="kicker">16タイプをつくる、軸候補</p>
-        <h1>スピの軸の<br />パターンを整理</h1>
-      </section>
-
-      <section className="guide" aria-label="この資料の見方">
-        <span>見かた</span>
-        <p><strong>26本を4カテゴリに整理。</strong> 人によって答えが分かれそうな4本を探すための資料です。</p>
-      </section>
-
-      <section className="axis-section" id="axis-list">
-        <div className="axis-heading">
-          <p className="kicker dark">AXIS PATTERNS</p>
-          <span>{axes.length}候補</span>
+      <section className="question-stage" key={step}>
+        <div className="question-copy">
+          <p className="scene">{question.scene}</p>
+          <h1>{question.prompt}</h1>
         </div>
-
-        <div className="category-tabs" role="tablist" aria-label="カテゴリで絞り込む">
-          {categories.map((item) => (
-            <button
-              key={item}
-              type="button"
-              role="tab"
-              aria-selected={category === item}
-              className={category === item ? 'active' : ''}
-              onClick={() => setCategory(item)}
-            >
-              {item}
-              <span>{item === 'すべて' ? axes.length : axes.filter((axis) => axis.category === item).length}</span>
-            </button>
-          ))}
+        <div className="answer-list">
+          <button type="button" onClick={() => answer(1)}>
+            <span>A</span><strong>{question.a}</strong><ArrowRight aria-hidden="true" />
+          </button>
+          <button type="button" onClick={() => answer(-1)}>
+            <span>B</span><strong>{question.b}</strong><ArrowRight aria-hidden="true" />
+          </button>
         </div>
-
-        <div className="axis-list">
-          {filteredAxes.map((axis) => (
-              <article className="axis-item" key={axis.id}>
-                <div className="axis-meta">
-                  <span>{String(axis.id).padStart(2, '0')}</span>
-                  <span>{axis.category}</span>
-                  {axis.strong && <span className="strong-label">有力候補</span>}
-                </div>
-                <h3>{axis.question}</h3>
-                <div className="axis-choices">
-                  <div><b>A</b><div><strong>{axis.left}<em>タイプ</em></strong><span>{axis.leftNote}</span></div></div>
-                  <div><b>B</b><div><strong>{axis.right}<em>タイプ</em></strong><span>{axis.rightNote}</span></div></div>
-                </div>
-              </article>
-          ))}
-        </div>
+        <p className="answer-note">考えすぎず、直感に近い方を選んでください。</p>
       </section>
-
-      <section className="why-section">
-        <p className="kicker light">WHY THESE FOUR?</p>
-        <h2>迷ったら、<br />この4本から。</h2>
-        <p>人によって分かれやすく、診断結果にもキャラが出そうな暫定ベスト。</p>
-        <ol>
-          {axes.filter((axis) => axis.strong).map((axis) => (
-            <li key={axis.id}>
-              <span>{String(axis.id).padStart(2, '0')}</span>
-              <strong>{axis.left}<br />↔ {axis.right}</strong>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <footer>
-        <strong>スピタイプ診断</strong>
-        <span>どちらが正しいかではなく、どちらに心が動くか。</span>
-      </footer>
-
     </main>
   );
 }
