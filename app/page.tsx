@@ -170,7 +170,7 @@ const typeResults: Record<string, TypeResult> = {
     rituals: [{ title: '吉報の即アクション', detail: '嬉しい連絡が来たら、24時間以内に小さな次の一手を打つ。' }, { title: '朝一番の窓開け', detail: '部屋の空気を動かしながら、今日広げたい流れを声に出す。' }, { title: '満月の棚卸し', detail: '増やす願いだけでなく、続けなくていい予定を手放す。' }],
   },
   PBCR: {
-    name: 'ボス猫', catchphrase: '来た波に乗れば、未来はもっと面白くなる。',
+    name: '追い風ライダー', catchphrase: '来た波に乗れば、未来はもっと面白くなる。',
     description: '偶然や人から届く好意を素直に受け取り、その流れに乗るほど未来が開いていくタイプ。頑張って引き寄せようとしなくても、楽しそうにしている姿そのものが次の幸運を呼びます。「なんとなく気になる」を信じられる、生まれつきの受信上手です。',
     tendencies: ['誘いやプレゼントから予想外の展開が始まりやすい', '場の空気を読み、今どこに勢いがあるか直感でわかる', '好きなことを楽しんでいる時に人や情報が集まる'],
     strength: '幸運を受け取る無邪気さと、波に乗る反射神経。人の厚意を喜びに変えられます。',
@@ -266,7 +266,7 @@ const typeResults: Record<string, TypeResult> = {
     strength: '受容と修復のバランス。感情が揺れる場でも、現実的で長持ちする解決を選びます。',
     blindspot: '自分にも厳しい判決を出し、避けられなかったことまで責任として背負いがちです。',
     advice: '判断の最後に「親友にも同じ厳しさを向ける？」と確認を。自分への慈悲が、判断をより公平にします。',
-    matches: [{ code: 'PBCR', reason: 'ボス猫の明るさが、あなたに予想外の温かい判決を教えます。' }, { code: 'NDER', reason: '責任感と守る力を理解し合える、静かで揺るがない信頼関係。' }],
+    matches: [{ code: 'PBCR', reason: '追い風ライダーの明るさが、あなたに予想外の温かい判決を教えます。' }, { code: 'NDER', reason: '責任感と守る力を理解し合える、静かで揺るがない信頼関係。' }],
     rituals: [{ title: '一日の閉廷', detail: '夜に「今日できたこと」を3つ認定し、反省会を終わらせる。' }, { title: '左右の天秤メモ', detail: '迷いを得るもの・失うものに分け、感情も同じ一票として数える。' }, { title: '机上の浄化', detail: '判断前に机の上を空にし、視界と考えを同時に整える。' }],
   },
   NDER: {
@@ -381,7 +381,7 @@ export default function Home() {
         <section className="hero" id="top">
           <div className="hero-content">
             <p className="kicker">12 QUESTIONS / 16 CHARACTERS</p>
-            <h1>あなたの運命、<br /><em>どのキャラ？</em></h1>
+            <h1>あなたは<br /><em>どのスピタイプ？</em></h1>
             <p className="hero-copy">恋愛、推し、バイト、偶然。12問で“運の信じ方”を16タイプに。</p>
             <button className="primary-button" type="button" onClick={() => setStarted(true)}>
               自分のキャラを見つける <ArrowRight aria-hidden="true" />
