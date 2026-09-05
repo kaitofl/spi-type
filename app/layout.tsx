@@ -1,12 +1,10 @@
 import type { Metadata } from 'next';
-import { Geist } from 'next/font/google';
 import './globals.css';
 
-const geist = Geist({ variable: '--font-geist', subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'スピタイプ診断｜運命の信じ方、16タイプ。',
-  description: '恋愛、推し、バイト、偶然。12問で“運の信じ方”を16体のキャラクターに。',
+  title: 'スピタイプ診断｜あなたを映す、一枚の物語。',
+  description: '偶然の受けとめ方、未来へのまなざし。12の問いから、あなたの信じ方を16のキャラクターで読み解きます。',
   icons: {
     icon: [{ url: '/favicon.svg', type: 'image/svg+xml' }],
     shortcut: '/favicon.svg',
@@ -26,5 +24,5 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="ja"><body className={geist.variable}>{children}</body></html>;
+  return <html lang="ja"><body>{children}</body></html>;
 }
