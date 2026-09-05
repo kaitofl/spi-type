@@ -404,7 +404,7 @@ export default function Home() {
           <div className="hero-characters" aria-label="診断キャラクターの一例">
             {['PBER', 'PBEM', 'PDER'].map((code, index) => (
               <figure key={code} className={`hero-character character-${index + 1}`}>
-                <img src={`/types-v2/${code}.png`} alt={typeResults[code].name} />
+                <img src={`/types-tarot-v1/${code}.webp`} alt={typeResults[code].name} />
                 <figcaption><span>{code}</span>{typeResults[code].name}</figcaption>
               </figure>
             ))}
@@ -431,7 +431,7 @@ export default function Home() {
           <div className="character-grid">
             {typeEntries.map(([code, type]) => (
               <div className="character-tile" key={code}>
-                <img src={`/types-v2/${code}.png`} alt="" loading="lazy" />
+                <img src={`/types-tarot-v1/${code}.webp`} alt="" loading="lazy" />
                 <div><span>{code}</span><strong>{type.name}</strong><small>{type.catchphrase}</small></div>
               </div>
             ))}
@@ -456,7 +456,7 @@ export default function Home() {
 
         <section className="result-hero">
           <div className="result-character">
-            <img src={`/types-v2/${result.code}.png`} alt={result.name} />
+            <img src={`/types-tarot-v1/${result.code}.webp`} alt={result.name} />
           </div>
           <p className="result-eyebrow">YOUR FATE CHARACTER</p>
           <div className="type-code">TYPE / {result.code}</div>
@@ -520,7 +520,7 @@ export default function Home() {
                 return (
                   <div className="match-row" key={match.code}>
                     <div className="match-image">
-                      <img src={`/types-v2/${match.code}.png`} alt={matchedType.name} loading="lazy" />
+                      <img src={`/types-tarot-v1/${match.code}.webp`} alt={matchedType.name} loading="lazy" />
                       <span>0{index + 1}</span>
                     </div>
                     <div>
