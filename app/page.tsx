@@ -483,10 +483,6 @@ export default function Home() {
                         ))}
                       </div>
                     </section>
-                    <section className="sheet-tendencies" aria-labelledby="sheet-tendencies-title">
-                      <div className="sheet-section-heading"><span>MAYBE THIS IS YOU</span><h4 id="sheet-tendencies-title">こんな瞬間、ありませんか？</h4></div>
-                      <ul>{selectedCharacter.tendencies.map((tendency) => <li key={tendency}>{tendency}</li>)}</ul>
-                    </section>
                     <div className="sheet-aspects">
                       <div><span>THE LIGHT</span><h4>このキャラの光</h4><p>{selectedCharacter.strength}</p></div>
                       <div><span>THE SHADOW</span><h4>光のそばにある影</h4><p>{selectedCharacter.blindspot}</p></div>
