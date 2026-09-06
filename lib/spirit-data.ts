@@ -25,22 +25,22 @@ export type TypeResult = {
 };
 
 export const questions: Question[] = [
-  { image: '/questions/q01-tarot.webp', prompt: 'レシートの合計が「1234円」。何のサイン？', options: [{ label: '幸運のサイン', value: 'P' }, { label: '注意のサイン', value: 'N' }] },
-  { image: '/questions/q02-tarot.webp', prompt: '家を出た瞬間、雨がやんだ。今日は？', options: [{ label: '今日はツイてる', value: 'P' }, { label: 'また降りそう', value: 'N' }] },
-  { image: '/questions/q03-tarot.webp', prompt: '行きたい店が臨時休業。どう思う？', options: [{ label: '別の良いことがありそう', value: 'P' }, { label: '今日は慎重に動こう', value: 'N' }] },
-  { image: '/questions/q04-tarot.webp', prompt: '自分の10年後の未来は？', options: [{ label: '選択次第で変わる', value: 'B' }, { label: 'あらかじめ決まっている', value: 'D' }] },
-  { image: '/questions/q05-tarot.webp', prompt: '「結婚は5年後」と占われた。どうする？', options: [{ label: '努力して未来を変える', value: 'B' }, { label: '5年後まで待つ', value: 'D' }] },
-  { image: '/questions/q06-tarot.webp', prompt: '第一志望に落ちた。この先は？', options: [{ label: '次の選択で未来は変わる', value: 'B' }, { label: '別の道へ進む運命だった', value: 'D' }] },
-  { image: '/questions/q07-tarot.webp', prompt: '競馬が的中。次のレースは？', options: [{ label: '勢いでまた当たる', value: 'C' }, { label: '反動で当たらない', value: 'E' }] },
-  { image: '/questions/q08-tarot.webp', prompt: '仕事で3日連続ミス。明日は？', options: [{ label: 'またミスが続く', value: 'C' }, { label: 'そろそろうまくいく', value: 'E' }] },
-  { image: '/questions/q09-tarot.webp', prompt: '人気ライブに3回連続当選。次は？', options: [{ label: '勢いでまた当たる', value: 'C' }, { label: '運を使ったから外れる', value: 'E' }] },
-  { image: '/questions/q10-tarot.webp', prompt: '転職を成功させたい。どちらを選ぶ？', options: [{ label: '「理想の仕事に出会う」と唱える', value: 'K' }, { label: '仕事運で有名な神社へ行く', value: 'S' }] },
-  { image: '/questions/q11-tarot.webp', prompt: '良い出会いがほしい。どちらを選ぶ？', options: [{ label: '縁結びで有名な神社へ行く', value: 'S' }, { label: '縁結びのお守りを持つ', value: 'I' }] },
-  { image: '/questions/q12-tarot.webp', prompt: '宝くじを買った。どちらが当たりそう？', options: [{ label: '金運のお守りと一緒にしまう', value: 'I' }, { label: '「今回は当たる」と唱える', value: 'K' }] },
+  { image: '/questions/q01-fantasy.webp', prompt: 'レシートの合計が「1234円」。何のサイン？', options: [{ label: '幸運のサイン', value: 'P' }, { label: '注意のサイン', value: 'N' }] },
+  { image: '/questions/q02-fantasy.webp', prompt: '家を出た瞬間、雨がやんだ。今日は？', options: [{ label: '今日はツイてる', value: 'P' }, { label: 'また降りそう', value: 'N' }] },
+  { image: '/questions/q03-fantasy.webp', prompt: '行きたい店が臨時休業。どう思う？', options: [{ label: '別の良いことがありそう', value: 'P' }, { label: '今日は慎重に動こう', value: 'N' }] },
+  { image: '/questions/q04-fantasy.webp', prompt: '自分の10年後の未来は？', options: [{ label: '選択次第で変わる', value: 'B' }, { label: 'あらかじめ決まっている', value: 'D' }] },
+  { image: '/questions/q05-fantasy.webp', prompt: '「結婚は5年後」と占われた。どうする？', options: [{ label: '努力して未来を変える', value: 'B' }, { label: '5年後まで待つ', value: 'D' }] },
+  { image: '/questions/q06-fantasy.webp', prompt: '第一志望に落ちた。この先は？', options: [{ label: '次の選択で未来は変わる', value: 'B' }, { label: '別の道へ進む運命だった', value: 'D' }] },
+  { image: '/questions/q07-fantasy.webp', prompt: '競馬が的中。次のレースは？', options: [{ label: '勢いでまた当たる', value: 'C' }, { label: '反動で当たらない', value: 'E' }] },
+  { image: '/questions/q08-fantasy.webp', prompt: '仕事で3日連続ミス。明日は？', options: [{ label: 'またミスが続く', value: 'C' }, { label: 'そろそろうまくいく', value: 'E' }] },
+  { image: '/questions/q09-fantasy.webp', prompt: '人気ライブに3回連続当選。次は？', options: [{ label: '勢いでまた当たる', value: 'C' }, { label: '運を使ったから外れる', value: 'E' }] },
+  { image: '/questions/q10-fantasy.webp', prompt: '転職を成功させたい。どちらを選ぶ？', options: [{ label: '「理想の仕事に出会う」と唱える', value: 'K' }, { label: '仕事運で有名な神社へ行く', value: 'S' }] },
+  { image: '/questions/q11-fantasy.webp', prompt: '良い出会いがほしい。どちらを選ぶ？', options: [{ label: '縁結びで有名な神社へ行く', value: 'S' }, { label: '縁結びのお守りを持つ', value: 'I' }] },
+  { image: '/questions/q12-fantasy.webp', prompt: '宝くじを買った。どちらが当たりそう？', options: [{ label: '金運のお守りと一緒にしまう', value: 'I' }, { label: '「今回は当たる」と唱える', value: 'K' }] },
 ];
 
 export const methodTieBreakQuestion: Question = {
-  image: '/questions/q12-tarot.webp',
+  image: '/questions/q12-fantasy.webp',
   prompt: '明日が人生の勝負の日。ひとつ選ぶなら？',
   options: [
     { label: '「絶対うまくいく」と唱える', value: 'K' },
