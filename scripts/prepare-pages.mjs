@@ -1,4 +1,4 @@
-import { readFile, writeFile } from 'node:fs/promises';
+import { readFile, rm, writeFile } from 'node:fs/promises';
 
 for (const file of ['dist/client/index.html', 'dist/client/404.html']) {
   const html = await readFile(file, 'utf8');
@@ -8,3 +8,6 @@ for (const file of ['dist/client/index.html', 'dist/client/404.html']) {
   );
   await writeFile(file, pageRelative);
 }
+
+await writeFile('dist/client/.nojekyll', '');
+await rm('dist/client/.DS_Store', { force: true });
