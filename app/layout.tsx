@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 
+export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
   title: 'スピタイプ診断｜あなたを映す、一枚の物語。',
