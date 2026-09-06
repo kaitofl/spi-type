@@ -9,6 +9,16 @@ import {
   SheetDescription,
   SheetTitle,
 } from '@/components/ui/sheet';
+import {
+  axesForCode as currentAxesForCode,
+  methodIsTied,
+  methodTieBreakQuestion,
+  questions as currentQuestions,
+  resultCode,
+  typeEntries as currentTypeEntries,
+  typeResults as currentTypeResults,
+  type ScoreKey,
+} from '@/lib/spirit-data';
 
 type Dimension = 'outlook' | 'fate' | 'flow' | 'agency';
 type ChoiceValue = -1 | 1;
@@ -17,9 +27,7 @@ type Question = {
   dimension: Dimension;
   image: string;
   prompt: string;
-  scene: string;
-  a: string;
-  b: string;
+  yesValue: ChoiceValue;
 };
 
 type AxisResult = {
@@ -45,102 +53,78 @@ const assetBase = typeof window !== 'undefined' && window.location.pathname.star
   : '';
 const assetPath = (path: string) => `${assetBase}${path}`;
 
-const questions: Question[] = [
+const _legacyQuestions: Question[] = [
   {
     dimension: 'outlook',
     image: assetPath('/questions/q01-tarot.webp'),
-    scene: '朝、窓辺に白い羽が落ちていた。その直後、大事な予定が急に変更になった。',
-    prompt: 'この偶然を、どう受けとめる？',
-    a: 'もっといい流れへ向かうサイン',
-    b: 'いまは少し、慎重に進む合図',
+    prompt: 'ゾロ目を見ると、警告よりも幸運のサインだと感じる？',
+    yesValue: 1,
   },
   {
     dimension: 'fate',
     image: assetPath('/questions/q02-tarot.webp'),
-    scene: '初対面なのに、「前にも会った気がする」と強く感じる人がいた。',
-    prompt: 'まだ次の約束はない。どう思う？',
-    a: 'ここから連絡するかで、二人の未来が変わる',
-    b: '必要な縁なら、また会うようにできている',
+    prompt: '人生の大きな流れは、生まれる前から決まっていると思う？',
+    yesValue: -1,
   },
   {
     dimension: 'flow',
     image: assetPath('/questions/q03-tarot.webp'),
-    scene: 'お守りをなくす、鏡が割れる、カラスが何度も鳴く。気になる出来事が重なった。',
-    prompt: '今の運をどう考える？',
-    a: '悪い運をまとめて使った。次は上向く',
-    b: '悪い気が連鎖している。断ち切る必要がある',
+    prompt: '良い運気は、次の幸運を引き寄せると思う？',
+    yesValue: -1,
   },
   {
     dimension: 'agency',
     image: assetPath('/questions/q04-tarot.webp'),
-    scene: '最近、部屋の空気が重い。観葉植物まで急に元気がなくなった。',
-    prompt: 'まずどうする？',
-    a: '掃除や塩風呂で、自分から気を入れ替える',
-    b: 'いまは休む時期。自然に変わるのを待つ',
+    prompt: '願いは、強く意図することで現実に近づくと思う？',
+    yesValue: 1,
   },
   {
     dimension: 'outlook',
     image: assetPath('/questions/q05-tarot.webp'),
-    scene: '最近、レシートや時計で「222」を何度も見る。',
-    prompt: 'その数字に、どんな意味を感じる？',
-    a: 'もうすぐ、いい変化が始まる',
-    b: 'いまの選択を見直した方がいい',
+    prompt: '嫌な予感は、未来からの警告だと思う？',
+    yesValue: -1,
   },
   {
     dimension: 'fate',
     image: assetPath('/questions/q06-tarot.webp'),
-    scene: '別々の占い師から、「半年後に大きな転機が来る」と同じことを言われた。',
-    prompt: 'その未来は、どう訪れると思う？',
-    a: 'これからの選択次第で、転機の形は変わる',
-    b: '半年後に起きることは、すでに決まっている',
+    prompt: '本当に縁がある人とは、離れてもまた出会うと思う？',
+    yesValue: -1,
   },
   {
     dimension: 'flow',
     image: assetPath('/questions/q07-tarot.webp'),
-    scene: '新月の夜に願いを書いた。翌日、ずっと欲しかった話が舞い込んできた。',
-    prompt: 'この先の流れを、どう感じる？',
-    a: 'いいことが起きた分、次は何か悪いことが起こるかも',
-    b: 'いい波に乗った。次の幸運も呼び込む',
+    prompt: '悪いことが続くのは、悪い気が連鎖しているからだと思う？',
+    yesValue: -1,
   },
   {
     dimension: 'agency',
     image: assetPath('/questions/q08-tarot.webp'),
-    scene: '夢の中に、知らない神社の赤い鳥居が何度も出てくる。',
-    prompt: 'その夢に、どう応える？',
-    a: '場所を調べて、自分から実際に行ってみる',
-    b: '必要な時に導かれるまで、いったん待つ',
+    prompt: '浄化やお祓いで、運の流れは変えられると思う？',
+    yesValue: 1,
   },
   {
     dimension: 'outlook',
     image: assetPath('/questions/q09-tarot.webp'),
-    scene: '旅行の前夜、目的地でひとり迷子になる夢を見た。',
-    prompt: '目覚めた直後、どう受け取る？',
-    a: '予定外の出会いがある予感',
-    b: '旅先のトラブルを知らせる予告',
+    prompt: '偶然起きたうれしい出来事には、意味があると思う？',
+    yesValue: 1,
   },
   {
     dimension: 'fate',
     image: assetPath('/questions/q10-tarot.webp'),
-    scene: '半年後、知らない土地で暮らす自分の姿が、急にリアルに浮かんできた。',
-    prompt: 'まだ何も決めていない。これは？',
-    a: '行動次第で叶う、いくつかある未来の一つ',
-    b: 'すでに決まっている未来を先に見た',
+    prompt: '占いで示された未来も、自分の選択で変えられると思う？',
+    yesValue: 1,
   },
   {
     dimension: 'flow',
     image: assetPath('/questions/q11-tarot.webp'),
-    scene: '同じ神社で、三回続けて「大吉」を引いた。',
-    prompt: '三回目のおみくじを見て思うのは？',
-    a: 'かなり運を使った。そろそろ落ち着きそう',
-    b: '強い運気に入った。この先も続きそう',
+    prompt: '幸運を使いすぎると、少し反動が来ると思う？',
+    yesValue: 1,
   },
   {
     dimension: 'agency',
     image: assetPath('/questions/q12-tarot.webp'),
-    scene: 'どうしても叶えたい願いがある。今夜は満月。',
-    prompt: '月を見ながら、どちらをする？',
-    a: '願いを言葉にして、自分から未来を引き寄せる',
-    b: '感謝を伝えて、叶うタイミングを天に委ねる',
+    prompt: '必要なチャンスは、ふさわしいタイミングで運ばれてくると思う？',
+    yesValue: -1,
   },
 ];
 
@@ -163,7 +147,7 @@ const axisDefinitions: Record<Dimension, { positive: AxisResult; negative: AxisR
   },
 };
 
-const typeResults: Record<string, TypeResult> = {
+const _legacyTypeResults: Record<string, TypeResult> = {
   PBEM: {
     name: '希望の錬金術師', catchphrase: 'どんな出来事も、次の幸運の材料に。',
     description: '未来は何度でも選び直せて、運は自分の手で整えられると考えるタイプ。うまくいかない日にも「ここから何を持ち帰れる？」と発想を切り替え、失敗さえ次の幸運の材料に変えていきます。立ち直る速さと、現実を少しずつ良くする工夫があなたの魔法です。',
@@ -327,9 +311,9 @@ const typeResults: Record<string, TypeResult> = {
 };
 
 const dimensionOrder: Dimension[] = ['outlook', 'fate', 'flow', 'agency'];
-const typeEntries = Object.entries(typeResults);
+const _legacyTypeEntries = Object.entries(_legacyTypeResults);
 
-function axesForCode(code: string) {
+function _legacyAxesForCode(code: string) {
   return dimensionOrder.map((dimension, index) => {
     const definition = axisDefinitions[dimension];
     return definition.positive.code === code[index] ? definition.positive : definition.negative;
@@ -339,13 +323,13 @@ function axesForCode(code: string) {
 export default function Home() {
   const [started, setStarted] = useState(false);
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<ChoiceValue[]>([]);
+  const [answers, setAnswers] = useState<ScoreKey[]>([]);
   const [copied, setCopied] = useState(false);
   const [shareError, setShareError] = useState(false);
   const [selectedCode, setSelectedCode] = useState<string | null>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
-  const selectedCharacter = selectedCode ? typeResults[selectedCode] : null;
-  const selectedAxes = selectedCode ? axesForCode(selectedCode) : [];
+  const selectedCharacter = selectedCode ? currentTypeResults[selectedCode] : null;
+  const selectedAxes = selectedCode ? currentAxesForCode(selectedCode) : [];
 
   useEffect(() => {
     if (started) {
@@ -354,21 +338,16 @@ export default function Home() {
     }
   }, [started, step]);
 
-  const completed = answers.length === questions.length;
+  const needsTieBreak = answers.length >= currentQuestions.length && methodIsTied(answers);
+  const activeQuestions = needsTieBreak ? [...currentQuestions, methodTieBreakQuestion] : currentQuestions;
+  const completed = answers.length >= activeQuestions.length;
   const result = useMemo(() => {
     if (!completed) return null;
-
-    const scores: Record<Dimension, number> = { outlook: 0, fate: 0, flow: 0, agency: 0 };
-    questions.forEach((question, index) => { scores[question.dimension] += answers[index]; });
-
-    const axes = dimensionOrder.map((dimension) =>
-      scores[dimension] > 0 ? axisDefinitions[dimension].positive : axisDefinitions[dimension].negative,
-    );
-    const code = axes.map((axis) => axis.code).join('');
-    return { code, axes, ...typeResults[code] };
+    const code = resultCode(answers);
+    return { code, axes: currentAxesForCode(code), ...currentTypeResults[code] };
   }, [answers, completed]);
 
-  function answer(value: ChoiceValue) {
+  function answer(value: ScoreKey) {
     const next = [...answers.slice(0, step), value];
     setAnswers(next);
     setStep(step + 1);
@@ -419,7 +398,7 @@ export default function Home() {
       <main className="landing-shell">
         <header className="site-header">
           <a href="#top" className="brand" aria-label="スピタイプ診断 トップへ"><span className="brand-mark" aria-hidden="true">✧</span><span>SPIRIT TYPE</span></a>
-          <nav aria-label="メインナビゲーション"><a href="#about">診断について</a><a href="#characters">16のキャラクター <ArrowRight size={14} aria-hidden="true" /></a></nav>
+          <nav aria-label="メインナビゲーション"><a href="#about">診断について</a><a href="#characters">24のキャラクター <ArrowRight size={14} aria-hidden="true" /></a></nav>
         </header>
 
         <section className="hero" id="top">
@@ -428,22 +407,22 @@ export default function Home() {
             <p className="kicker">A LITTLE JOURNEY INTO YOURSELF</p>
             <h1><span>スピタイプ</span><span>診断<span className="title-star" aria-hidden="true">✧</span></span></h1>
             <p className="hero-tagline">あなたの中に、どんな物語がある？</p>
-            <p className="hero-copy">偶然の受けとめ方。未来へのまなざし。<br />12の問いをたどると、<br className="mobile-break" />あなたを映す一枚に出会います。</p>
+            <p className="hero-copy">偶然、運命、運の流れ、信じる力。<br />12の短い二択に答えると、<br className="mobile-break" />あなたを映す一枚に出会います。</p>
             <button className="primary-button" type="button" onClick={() => { setStarted(true); window.scrollTo({ top: 0 }); }}><span>自分のカードを見つける</span><ArrowRight aria-hidden="true" /></button>
-            <span className="time-note">全12問 <i /> 約2分 <i /> 無料・登録不要</span>
+            <span className="time-note">全12問 <i /> 約1分 <i /> 無料・登録不要</span>
           </div>
-          <div className="hero-characters" aria-label="16の物語を描いたキャラクターカード">
-            <span className="deck-note">SIXTEEN STORIES, ONE OF YOU.</span>
-            {['PBER', 'PBEM', 'PDER'].map((code, index) => (
+          <div className="hero-characters" aria-label="24の物語を描いたキャラクターカード">
+            <span className="deck-note">TWENTY-FOUR STORIES, ONE OF YOU.</span>
+            {['PBES', 'PBEI', 'PDEK'].map((code, index) => (
               <figure key={code} className={`hero-character character-${index + 1}`}>
-                <div className="card-art"><img src={assetPath(`/types-tarot-v1/${code}.webp`)} alt={typeResults[code].name} fetchPriority={index === 1 ? 'high' : 'auto'} /></div>
-                <figcaption><span>{['II', 'I', 'VI'][index]}</span>{typeResults[code].name}</figcaption>
+                <div className="card-art"><img src={assetPath(`/types-tarot-v2/${code}.png`)} alt={currentTypeResults[code].name} fetchPriority={index === 1 ? 'high' : 'auto'} /></div>
+                <figcaption><span>{['II', 'I', 'VII'][index]}</span>{currentTypeResults[code].name}</figcaption>
               </figure>
             ))}
             <span className="deck-bottom" aria-hidden="true">✧ &nbsp; THE INNER CONSTELLATION &nbsp; ✧</span>
           </div>
           <a className="hero-scroll" href="#about"><span>物語のはじまり</span><span aria-hidden="true">↓</span></a>
-          <span className="hero-edition">THE SPIRIT TYPE COLLECTION — 01 / 16</span>
+          <span className="hero-edition">THE SPIRIT TYPE COLLECTION — 01 / 24</span>
         </section>
 
         <section className="axis-preview" id="about" aria-labelledby="about-title">
@@ -451,17 +430,17 @@ export default function Home() {
           <div className="preview-list">
             <div><span className="axis-symbol" aria-hidden="true">☼</span><div><span className="axis-index">I — OUTLOOK</span><h3>偶然に、何を見る？</h3><p>希望を見つける。兆しに備える。</p></div></div>
             <div><span className="axis-symbol" aria-hidden="true">✧</span><div><span className="axis-index">II — FATE</span><h3>未来は、どこへ続く？</h3><p>自分で選ぶ道。導かれてゆく道。</p></div></div>
-            <div><span className="axis-symbol" aria-hidden="true">≈</span><div><span className="axis-index">III — FLOW</span><h3>運は、どうめぐる？</h3><p>満ちては欠ける。次の波を呼ぶ。</p></div></div>
-            <div><span className="axis-symbol" aria-hidden="true">☾</span><div><span className="axis-index">IV — AGENCY</span><h3>その時、どう動く？</h3><p>自ら扉をひらく。訪れを待つ。</p></div></div>
+            <div><span className="axis-symbol" aria-hidden="true">≈</span><div><span className="axis-index">III — FLOW</span><h3>運は、どう続く？</h3><p>勢いのまま続く。上がり下がりをめぐる。</p></div></div>
+            <div><span className="axis-symbol" aria-hidden="true">☾</span><div><span className="axis-index">IV — POWER</span><h3>力は、どこに宿る？</h3><p>言葉。特別な場所。大切なアイテム。</p></div></div>
           </div>
         </section>
 
         <section className="type-teaser" id="characters" aria-labelledby="collection-title">
-          <div className="teaser-heading"><div><p className="kicker">02 — THE COLLECTION</p><h2 id="collection-title">16の肖像。<br /><span>16通りの、あなたらしさ。</span></h2></div><p>気になる一枚を開いて、心当たりを探してみて。<br />どの物語にも、違う光と強さがあります。</p></div>
+          <div className="teaser-heading"><div><p className="kicker">02 — THE COLLECTION</p><h2 id="collection-title">24の肖像。<br /><span>24通りの、あなたらしさ。</span></h2></div><p>気になる一枚を開いて、心当たりを探してみて。<br />どの物語にも、違う光と強さがあります。</p></div>
           <div className="character-grid">
-            {typeEntries.map(([code, type], index) => (
+            {currentTypeEntries.map(([code, type], index) => (
               <button className="character-tile" key={code} type="button" onClick={() => setSelectedCode(code)} aria-label={`${type.name}の詳細を見る`}>
-                <div className="tile-image"><img src={assetPath(`/types-tarot-v1/${code}.webp`)} alt={type.name} loading="lazy" width={600} height={800} /><span className="tile-number">{String(index + 1).padStart(2, '0')}</span></div>
+                <div className="tile-image"><img src={assetPath(`/types-tarot-v2/${code}.png`)} alt={type.name} loading="lazy" width={384} height={512} /><span className="tile-number">{String(index + 1).padStart(2, '0')}</span></div>
                 <div className="tile-caption"><span>{code}</span><h3>{type.name}</h3><p>{type.catchphrase}</p><span className="tile-more">もしかして自分かも？ <ArrowRight aria-hidden="true" /></span></div>
               </button>
             ))}
@@ -470,7 +449,7 @@ export default function Home() {
             <SheetContent side="bottom" className="character-sheet" showCloseButton={false}>
               {selectedCharacter && selectedCode && (
                 <div className="character-sheet-inner">
-                  <div className="sheet-image"><img src={assetPath(`/types-tarot-v1/${selectedCode}.webp`)} alt={selectedCharacter.name} /></div>
+                  <div className="sheet-image"><img src={assetPath(`/types-tarot-v2/${selectedCode}.png`)} alt={selectedCharacter.name} /></div>
                   <div className="sheet-copy">
                     <div className="sheet-topline"><span>SPIRIT TYPE — {selectedCode}</span><SheetClose className="sheet-close" aria-label="キャラクター詳細を閉じる">×</SheetClose></div>
                     <SheetTitle className="sheet-title">{selectedCharacter.name}</SheetTitle>
@@ -493,7 +472,7 @@ export default function Home() {
                       <div><span>THE SHADOW</span><h4>光のそばにある影</h4><p>{selectedCharacter.blindspot}</p></div>
                     </div>
                     <div className="sheet-message"><span aria-hidden="true">✧</span><div><strong>この物語が気になったあなたへ</strong><p>{selectedCharacter.advice}</p></div></div>
-                    <div className="sheet-invitation"><p>これは、16枚のうちの一枚。<br />12の問いから、本当のあなたを映すカードを見つけてみませんか。</p><button className="sheet-cta" type="button" onClick={() => { setSelectedCode(null); setStarted(true); window.scrollTo({ top: 0 }); }}><span>自分のカードを見つける</span><ArrowRight aria-hidden="true" /></button></div>
+                    <div className="sheet-invitation"><p>これは、24枚のうちの一枚。<br />12の短い二択に答えて、本当のあなたを映すカードを見つけてみませんか。</p><button className="sheet-cta" type="button" onClick={() => { setSelectedCode(null); setStarted(true); window.scrollTo({ top: 0 }); }}><span>自分のカードを見つける</span><ArrowRight aria-hidden="true" /></button></div>
                   </div>
                 </div>
               )}
@@ -501,7 +480,7 @@ export default function Home() {
           </Sheet>
         </section>
 
-        <section className="closing"><span className="closing-star" aria-hidden="true">✧</span><p className="kicker">YOUR STORY IS WAITING</p><h2>まだ知らない自分に、<br />会いにいこう。</h2><p>正解はありません。いまの直感を、ひとつずつ。</p><button className="primary-button" type="button" onClick={() => { setStarted(true); window.scrollTo({ top: 0 }); }}><span>12の問いをはじめる</span><ArrowRight aria-hidden="true" /></button><span className="time-note">全12問 <i /> 約2分 <i /> 無料・登録不要</span></section>
+        <section className="closing"><span className="closing-star" aria-hidden="true">✧</span><p className="kicker">YOUR STORY IS WAITING</p><h2>まだ知らない自分に、<br />会いにいこう。</h2><p>正解はありません。二つの答えから直感のまま。</p><button className="primary-button" type="button" onClick={() => { setStarted(true); window.scrollTo({ top: 0 }); }}><span>12の問いをはじめる</span><ArrowRight aria-hidden="true" /></button><span className="time-note">全12問 <i /> 約1分 <i /> 無料・登録不要</span></section>
         <footer><a className="brand" href="#top"><span className="brand-mark" aria-hidden="true">✧</span>SPIRIT TYPE</a><span>あなたの信じ方に、ひとつの物語を。</span><small>FOR SELF-DISCOVERY, WITH A LITTLE MAGIC.</small></footer>
       </main>
     );
@@ -517,7 +496,7 @@ export default function Home() {
 
         <section className="result-hero">
           <div className="result-character">
-            <img src={assetPath(`/types-tarot-v1/${result.code}.webp`)} alt={result.name} />
+            <img src={assetPath(`/types-tarot-v2/${result.code}.png`)} alt={result.name} />
           </div>
           <div className="result-title"><p className="result-eyebrow">THE STORY WITHIN YOU</p><p className="result-prelude">あなたを映す、一枚。</p><div className="type-code">SPIRIT TYPE — {result.code}</div><h1 ref={headingRef} tabIndex={-1}>{result.name}</h1><p className="result-catch">{result.catchphrase}</p><a className="result-read" href="#your-story">あなたの物語を読む <span aria-hidden="true">↓</span></a></div>
         </section>
@@ -574,11 +553,11 @@ export default function Home() {
             <p className="section-lead">似た感性を分かち合ったり、違う視点をもらったり。あなたの世界を広げてくれそうな二人です。</p>
             <div className="match-list">
               {result.matches.map((match, index) => {
-                const matchedType = typeResults[match.code];
+                const matchedType = currentTypeResults[match.code];
                 return (
                   <div className="match-row" key={match.code}>
                     <div className="match-image">
-                      <img src={assetPath(`/types-tarot-v1/${match.code}.webp`)} alt={matchedType.name} loading="lazy" />
+                      <img src={assetPath(`/types-tarot-v2/${match.code}.png`)} alt={matchedType.name} loading="lazy" />
                       <span>0{index + 1}</span>
                     </div>
                     <div>
@@ -620,37 +599,36 @@ export default function Home() {
     );
   }
 
-  const question = questions[step];
-  const progress = (step / questions.length) * 100;
+  const question = activeQuestions[step];
+  const progress = (step / activeQuestions.length) * 100;
 
   return (
     <main className="quiz-shell">
       <header className="quiz-header">
         <button type="button" className="back-button" onClick={goBack} aria-label="前へ戻る"><ChevronLeft /></button>
         <span className="brand"><span className="brand-mark" aria-hidden="true">✧</span>SPIRIT TYPE</span>
-        <span>{String(step + 1).padStart(2, '0')} / {questions.length}</span>
+        <span>{String(step + 1).padStart(2, '0')} / {activeQuestions.length}</span>
       </header>
-      <div className="progress-track" role="progressbar" aria-label="回答の進み具合" aria-valuenow={step} aria-valuemin={0} aria-valuemax={questions.length}><span style={{ width: `${progress}%` }} /></div>
+      <div className="progress-track" role="progressbar" aria-label="回答の進み具合" aria-valuenow={step} aria-valuemin={0} aria-valuemax={activeQuestions.length}><span style={{ width: `${progress}%` }} /></div>
 
       <section className="question-stage" key={step}>
         <div className="question-visual">
-          <img src={question.image} alt="" />
+          <img src={assetPath(question.image)} alt="" />
           <span>SCENE / {String(step + 1).padStart(2, '0')}</span>
         </div>
         <div className="question-reading"><div className="question-copy">
           <span className="question-number">Q.{String(step + 1).padStart(2, '0')} / FOLLOW YOUR INTUITION</span>
-          <h1 ref={headingRef} tabIndex={-1}>{question.scene}</h1>
-          <p className="question-prompt">{question.prompt}</p>
+          <h1 ref={headingRef} tabIndex={-1}>{question.prompt}</h1>
+          <p className="question-prompt">考え込まず、最初に浮かんだ答えを選んでください。</p>
         </div>
         <div className="answer-list">
-          <button type="button" onClick={() => answer(1)}>
-            <span>A</span><strong>{question.a}</strong><ArrowRight aria-hidden="true" />
-          </button>
-          <button type="button" onClick={() => answer(-1)}>
-            <span>B</span><strong>{question.b}</strong><ArrowRight aria-hidden="true" />
-          </button>
+          {question.options.map((option, index) => (
+            <button type="button" key={option.value} onClick={() => answer(option.value)}>
+              <span>{String.fromCharCode(65 + index)}</span><strong>{option.label}</strong><ArrowRight aria-hidden="true" />
+            </button>
+          ))}
         </div>
-        <p className="answer-note">正解はありません。心に近いほうを選んでください。</p></div>
+        <p className="answer-note">正解はありません。直感のまま答えてください。</p></div>
       </section>
     </main>
   );
