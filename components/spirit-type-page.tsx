@@ -397,7 +397,7 @@ export default function Home() {
     return (
       <main className="landing-shell">
         <header className="site-header">
-          <a href="#top" className="brand" aria-label="スピタイプ診断 トップへ"><span className="brand-mark" aria-hidden="true">✧</span><span>SPIRIT TYPE</span></a>
+          <a href="#top" className="brand" aria-label="スピタイプ診断 トップへ"><span className="brand-mark" aria-hidden="true">✧</span><span>SPIRITUAL TYPE</span></a>
           <nav aria-label="メインナビゲーション"><a href="#about">診断について</a><a href="#characters">24のキャラクター <ArrowRight size={14} aria-hidden="true" /></a></nav>
         </header>
 
@@ -422,7 +422,7 @@ export default function Home() {
             <span className="deck-bottom" aria-hidden="true">✧ &nbsp; THE INNER CONSTELLATION &nbsp; ✧</span>
           </div>
           <a className="hero-scroll" href="#about"><span>物語のはじまり</span><span aria-hidden="true">↓</span></a>
-          <span className="hero-edition">THE SPIRIT TYPE COLLECTION — 01 / 24</span>
+          <span className="hero-edition">THE SPIRITUAL TYPE COLLECTION — 01 / 24</span>
         </section>
 
         <section className="axis-preview" id="about" aria-labelledby="about-title">
@@ -451,10 +451,13 @@ export default function Home() {
                 <div className="character-sheet-inner">
                   <div className="sheet-image"><img src={assetPath(`/types-tarot-v2/${selectedCode}.png`)} alt={selectedCharacter.name} /></div>
                   <div className="sheet-copy">
-                    <div className="sheet-topline"><span>SPIRIT TYPE — {selectedCode}</span><SheetClose className="sheet-close" aria-label="キャラクター詳細を閉じる">×</SheetClose></div>
+                    <div className="sheet-topline"><span>SPIRITUAL TYPE — {selectedCode}</span><SheetClose className="sheet-close" aria-label="キャラクター詳細を閉じる">×</SheetClose></div>
                     <SheetTitle className="sheet-title">{selectedCharacter.name}</SheetTitle>
                     <p className="sheet-catch">{selectedCharacter.catchphrase}</p>
                     <SheetDescription className="sheet-description">{selectedCharacter.description}</SheetDescription>
+                    <ul className="sheet-tendencies">
+                      {selectedCharacter.tendencies.map((tendency) => <li key={tendency}>{tendency}</li>)}
+                    </ul>
                     <section className="sheet-axes" aria-labelledby="sheet-axes-title">
                       <div className="sheet-section-heading"><span>FOUR POINTS OF VIEW</span><h4 id="sheet-axes-title">このキャラをつくる、4つのまなざし</h4></div>
                       <div className="sheet-axis-list">
@@ -472,6 +475,29 @@ export default function Home() {
                       <div><span>THE SHADOW</span><h4>光のそばにある影</h4><p>{selectedCharacter.blindspot}</p></div>
                     </div>
                     <div className="sheet-message"><span aria-hidden="true">✧</span><div><strong>この物語が気になったあなたへ</strong><p>{selectedCharacter.advice}</p></div></div>
+                    <section className="sheet-section" aria-labelledby="sheet-matches-title">
+                      <div className="sheet-section-heading"><span><Heart aria-hidden="true" /> SOUL CHEMISTRY</span><h4 id="sheet-matches-title">響きあう、ふたつの物語。</h4></div>
+                      <p className="sheet-section-lead">似た感性を分かち合ったり、違う視点をもらったり。あなたの世界を広げてくれそうな二人です。</p>
+                      <div className="sheet-match-list">
+                        {selectedCharacter.matches.map((match) => {
+                          const matchedType = currentTypeResults[match.code];
+                          return (
+                            <div className="sheet-match-row" key={match.code}>
+                              <div className="sheet-match-image"><img src={assetPath(`/types-tarot-v2/${match.code}.png`)} alt={matchedType.name} loading="lazy" /></div>
+                              <div><small>TYPE / {match.code}</small><h5>{matchedType.name}</h5><p>{match.reason}</p></div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </section>
+                    <section className="sheet-section" aria-labelledby="sheet-rituals-title">
+                      <div className="sheet-section-heading"><span><Sparkles aria-hidden="true" /> SPIRITUAL ACTIONS</span><h4 id="sheet-rituals-title">日々に添える、小さな儀式。</h4></div>
+                      <div className="sheet-ritual-list">
+                        {selectedCharacter.rituals.map((ritual, index) => (
+                          <div key={ritual.title}><span>{String(index + 1).padStart(2, '0')}</span><div><h5>{ritual.title}</h5><p>{ritual.detail}</p></div></div>
+                        ))}
+                      </div>
+                    </section>
                     <div className="sheet-invitation"><p>これは、24枚のうちの一枚。<br />12の短い二択に答えて、本当のあなたを映すカードを見つけてみませんか。</p><button className="sheet-cta" type="button" onClick={() => { setSelectedCode(null); setStarted(true); window.scrollTo({ top: 0 }); }}><span>自分のカードを見つける</span><ArrowRight aria-hidden="true" /></button></div>
                   </div>
                 </div>
@@ -481,7 +507,7 @@ export default function Home() {
         </section>
 
         <section className="closing"><span className="closing-star" aria-hidden="true">✧</span><p className="kicker">YOUR STORY IS WAITING</p><h2>まだ知らない自分に、<br />会いにいこう。</h2><p>正解はありません。二つの答えから直感のまま。</p><button className="primary-button" type="button" onClick={() => { setStarted(true); window.scrollTo({ top: 0 }); }}><span>12の問いをはじめる</span><ArrowRight aria-hidden="true" /></button><span className="time-note">全12問 <i /> 約1分 <i /> 無料・登録不要</span></section>
-        <footer><a className="brand" href="#top"><span className="brand-mark" aria-hidden="true">✧</span>SPIRIT TYPE</a><span>あなたの信じ方に、ひとつの物語を。</span><small>FOR SELF-DISCOVERY, WITH A LITTLE MAGIC.</small></footer>
+        <footer><a className="brand" href="#top"><span className="brand-mark" aria-hidden="true">✧</span>SPIRITUAL TYPE</a><span>あなたの信じ方に、ひとつの物語を。</span><small>FOR SELF-DISCOVERY, WITH A LITTLE MAGIC.</small></footer>
       </main>
     );
   }
@@ -490,7 +516,7 @@ export default function Home() {
     return (
       <main className="result-shell">
         <header className="quiz-header">
-          <span className="brand"><span className="brand-mark" aria-hidden="true">✧</span>SPIRIT TYPE</span>
+          <button className="brand brand-button" type="button" onClick={restart} aria-label="スピタイプ診断のホームへ戻る"><span className="brand-mark" aria-hidden="true">✧</span>SPIRITUAL TYPE</button>
           <button className="text-button" type="button" onClick={restart}>トップへ戻る</button>
         </header>
 
@@ -498,7 +524,7 @@ export default function Home() {
           <div className="result-character">
             <img src={assetPath(`/types-tarot-v2/${result.code}.png`)} alt={result.name} />
           </div>
-          <div className="result-title"><p className="result-eyebrow">THE STORY WITHIN YOU</p><p className="result-prelude">あなたを映す、一枚。</p><div className="type-code">SPIRIT TYPE — {result.code}</div><h1 ref={headingRef} tabIndex={-1}>{result.name}</h1><p className="result-catch">{result.catchphrase}</p><a className="result-read" href="#your-story">あなたの物語を読む <span aria-hidden="true">↓</span></a></div>
+          <div className="result-title"><p className="result-eyebrow">THE STORY WITHIN YOU</p><p className="result-prelude">あなたを映す、一枚。</p><div className="type-code">SPIRITUAL TYPE — {result.code}</div><h1 ref={headingRef} tabIndex={-1}>{result.name}</h1><p className="result-catch">{result.catchphrase}</p><a className="result-read" href="#your-story">あなたの物語を読む <span aria-hidden="true">↓</span></a></div>
         </section>
 
         <section className="result-detail" id="your-story">
@@ -606,7 +632,7 @@ export default function Home() {
     <main className="quiz-shell">
       <header className="quiz-header">
         <button type="button" className="back-button" onClick={goBack} aria-label="前へ戻る"><ChevronLeft /></button>
-        <span className="brand"><span className="brand-mark" aria-hidden="true">✧</span>SPIRIT TYPE</span>
+        <button className="brand brand-button" type="button" onClick={restart} aria-label="スピタイプ診断のホームへ戻る"><span className="brand-mark" aria-hidden="true">✧</span>SPIRITUAL TYPE</button>
         <span>{String(step + 1).padStart(2, '0')} / {activeQuestions.length}</span>
       </header>
       <div className="progress-track" role="progressbar" aria-label="回答の進み具合" aria-valuenow={step} aria-valuemin={0} aria-valuemax={activeQuestions.length}><span style={{ width: `${progress}%` }} /></div>
