@@ -170,7 +170,7 @@ footer small { font:11px var(--display); letter-spacing:.09em; }
 .answer-list button > span { font:17px var(--display); color:var(--gold); letter-spacing:.08em; }
 .answer-list button strong { font-size:15px; line-height:1.8; font-weight:400; }
 .answer-list button svg { width:18px; color:var(--gold); }
-.answer-list button:hover { background:#d8b87918; border-color:var(--gold); transform:translateX(4px); }
+@media (hover:hover) and (pointer:fine) { .answer-list button:hover { background:#d8b87918; border-color:var(--gold); transform:translateX(4px); } }
 .answer-list button:active { background:#d8b87930; }
 .answer-note { margin-top:22px; color:#aebfae; font-size:12px; line-height:1.8; }
 .text-button { min-height:44px; padding:8px 0 8px 15px; border:0; background:transparent; color:#d1d5c9; font-size:13px; }

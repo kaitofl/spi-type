@@ -619,7 +619,7 @@ export default function Home() {
         <div className="question-reading"><div className="question-copy">
           <span className="question-number">Q.{String(step + 1).padStart(2, '0')} / FOLLOW YOUR INTUITION</span>
           <h1 ref={headingRef} tabIndex={-1}>{question.prompt}</h1>
-          <p className="question-prompt">考え込まず、最初に浮かんだ答えを選んでください。</p>
+          <p className="question-prompt">考え込まず、感覚的に近い方を選んでください。</p>
         </div>
         <div className="answer-list">
           {question.options.map((option, index) => (
