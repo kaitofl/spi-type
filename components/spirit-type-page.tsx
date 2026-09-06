@@ -447,11 +447,13 @@ export default function Home() {
           </div>
           <Sheet open={Boolean(selectedCharacter)} onOpenChange={(open) => { if (!open) setSelectedCode(null); }}>
             <SheetContent side="bottom" className="character-sheet" showCloseButton={false}>
-              {selectedCharacter && selectedCode && (
-                <div className="character-sheet-inner">
+              <SheetClose className="sheet-close" aria-label="キャラクター詳細を閉じる">×</SheetClose>
+              <div className="character-sheet-scroll">
+                {selectedCharacter && selectedCode && (
+                  <div className="character-sheet-inner">
                   <div className="sheet-image"><img src={assetPath(`/types-tarot-v2/${selectedCode}.png`)} alt={selectedCharacter.name} /></div>
                   <div className="sheet-copy">
-                    <div className="sheet-topline"><span>SPIRITUAL TYPE — {selectedCode}</span><SheetClose className="sheet-close" aria-label="キャラクター詳細を閉じる">×</SheetClose></div>
+                    <div className="sheet-topline"><span>SPIRITUAL TYPE — {selectedCode}</span></div>
                     <SheetTitle className="sheet-title">{selectedCharacter.name}</SheetTitle>
                     <p className="sheet-catch">{selectedCharacter.catchphrase}</p>
                     <SheetDescription className="sheet-description">{selectedCharacter.description}</SheetDescription>
@@ -500,8 +502,9 @@ export default function Home() {
                     </section>
                     <div className="sheet-invitation"><p>これは、24枚のうちの一枚。<br />12の短い二択に答えて、本当のあなたを映すカードを見つけてみませんか。</p><button className="sheet-cta" type="button" onClick={() => { setSelectedCode(null); setStarted(true); window.scrollTo({ top: 0 }); }}><span>自分のカードを見つける</span><ArrowRight aria-hidden="true" /></button></div>
                   </div>
-                </div>
-              )}
+                  </div>
+                )}
+              </div>
             </SheetContent>
           </Sheet>
         </section>
